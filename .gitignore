@@ -1,3 +1,8 @@
 google_images/
 deep_features/
+.ipynb_checkpoints/
 image_list.txt
+*.pkl
+*.caffemodel
+*.binaryproto
+*.pyc

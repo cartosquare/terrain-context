@@ -91,4 +91,4 @@ extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) 
 x_train_file = features_folder + '/x_train.pkl'
 x_test_file = features_folder + '/x_test.pkl'
 y_train_file = features_folder + '/y_train.pkl'
-y_test_file = features_folder + '/x_train.pkl'
+y_test_file = features_folder + '/y_test.pkl'
