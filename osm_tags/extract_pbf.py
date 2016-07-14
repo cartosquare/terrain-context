@@ -1,4 +1,6 @@
 import os
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 from config import tags_csv, pbf_file, tags_node_data_folder, tags_way_data_folder
 
 if not os.path.exists(tags_node_data_folder):

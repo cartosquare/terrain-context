@@ -1,3 +1,5 @@
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 from config import all_tags_csv, tags_csv, unique_tags_csv
 
 f1 = open(all_tags_csv, 'r')

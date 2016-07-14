@@ -3,7 +3,8 @@ from random import randint
 from osgeo import ogr
 import json
 import numpy as np
-
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 from config import tags_csv, samples_per_category, min_samples_per_category, lng_offset, lat_offset, tags_node_data_folder, tags_way_data_folder, download_list_csv
 
 with open(tags_csv) as f:

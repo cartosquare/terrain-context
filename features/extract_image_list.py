@@ -1,6 +1,8 @@
 import os
 import glob
 import random
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 from config import google_image_folder, image_list_txt, samples_per_category
 
 f = open(image_list_txt, 'w')

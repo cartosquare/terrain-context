@@ -1,5 +1,7 @@
 import os
 import shutil
+import sys
+sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 from config import caffe_model_file, caffe_proto_text, caffe_extract_features_bin, deep_features_folder, extract_feature_batch, use_gpu
 
 # remove if exists
