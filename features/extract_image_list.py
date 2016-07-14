@@ -30,7 +30,10 @@ for direc in subdirectories:
 
         samples_count += max_samples
         for idx in range(0, max_samples):
-            f.write('%s %s\n' % (listing[idx], tags_map[direc]))
+            if os.path.getsize(listing[idx]) > 1024:
+                f.write('%s %s\n' % (listing[idx], tags_map[direc]))
+            else:
+                print 'skip invalid image %s' % (listing[idx])
     else:
         print 'not directory: %s' % (label_directory)
 f.close()
