@@ -12,6 +12,9 @@ images_folder = './images'
 # features folder
 features_folder = './features'
 
+# renet folder
+resnet_folder = './resnet'
+
 ## osm tags
 
 # osm pbf format data
@@ -74,8 +77,8 @@ image_list_txt = features_folder + '/image_list.txt'
 # caffe binary
 caffe_root = '../caffe/'
 caffe_extract_features_bin = '../caffe/build/tools/extract_features.bin'
-caffe_model_file = '../deep-residual-networks/ResNet-152-model.caffemodel'
-caffe_proto_text = 'resnet/ResNet-152-deploy.prototxt'
+caffe_model_file = resnet_folder + '/ResNet-152-model.caffemodel'
+caffe_proto_text = resnet_folder + '/ResNet-152-deploy.prototxt'
 use_gpu = True
 
 # deep feature folder
