@@ -1,6 +1,7 @@
 ### This file contains all the configure parameters we need.
 
 ## general folders
+debug = False
 
 # osm tags folder
 osm_tags_folder = './osm_tags'
@@ -41,7 +42,10 @@ tags_way_data_folder = osm_tags_folder + './tags_way_data'
 download_list_csv = osm_tags_folder + './download_list.csv'
 
 # downloading parameters
-samples_per_category = 500
+if debug:
+    samples_per_category = 10
+else:
+    samples_per_category = 500
 
 # space for discrect way features
 # Calculated for latitude 25.769322
@@ -55,8 +59,9 @@ lat_offset = 0.000686
 image_size = 256
 default_zoom = 18
 bottom_crop = 23
-min_samples_per_category = 250
+min_samples_per_category = samples_per_category / 2
 KEY = 'AIzaSyDjldHb_52Ui1etlmLORjFS_5xZv3yMjNg'
+
 # image folder
 google_image_folder = images_folder + '/google_images'
 
@@ -67,10 +72,16 @@ google_image_folder = images_folder + '/google_images'
 image_list_txt = features_folder + '/image_list.txt'
 
 # caffe binary
+caffe_root = '../caffe/'
 caffe_extract_features_bin = '../caffe/build/tools/extract_features.bin'
 caffe_model_file = '../deep-residual-networks/ResNet-152-model.caffemodel'
 caffe_proto_text = 'resnet/ResNet-152-deploy.prototxt'
+use_gpu = True
 
 # deep feature folder
 deep_features_folder = features_folder + '/deep_features'
 extract_feature_batch = samples_per_category
+x_train_file = features_folder + '/x_train.pkl'
+x_test_file = features_folder + '/x_test.pkl'
+y_train_file = features_folder + '/y_train.pkl'
+y_test_file = features_folder + '/x_train.pkl'

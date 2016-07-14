@@ -7,7 +7,7 @@ layer {
   transform_param {
     mirror: false
     crop_size: 224
-    mean_file: './resnet/ResNet_mean.binaryproto"
+    mean_file: "./resnet/ResNet_mean.binaryproto"
   }
   image_data_param {
     source: "./features/image_list.txt"
