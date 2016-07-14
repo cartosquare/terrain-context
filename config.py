@@ -27,23 +27,29 @@ osm_node_tags_csv = osm_tags_folder + '/node_tags.csv'
 # way tags csv
 osm_way_tags_csv = osm_tags_folder + '/way_tags.csv'
 
+if debug:
+    postfix = '_test'
+else:
+    postfix = ''
+
 # csv that combines node and way tags
-all_tags_csv = osm_tags_folder + '/all_tags.csv'
+all_tags_csv = osm_tags_folder + '/all_tags%s.csv' % (postfix)
 
 # subset of all tags(This is the tags that we want to learn)
-tags_csv = osm_tags_folder + '/tags.csv'
+tags_csv = osm_tags_folder + '/tags%s.csv' % (postfix)
+
 
 # in tags_csv file, a tag may occurs two times(both as node and way tags)
 # in this file, we list all the unique tags
-unique_tags_csv = osm_tags_folder + '/unique_tags.csv'
+unique_tags_csv = osm_tags_folder + '/unique_tags%s.csv' % (postfix)
 
 # extracted data by tags
-tags_node_data_folder = osm_tags_folder + './tags_node_data'
-tags_way_data_folder = osm_tags_folder + './tags_way_data'
+tags_node_data_folder = osm_tags_folder + '/tags_node_data%s' % (postfix)
+tags_way_data_folder = osm_tags_folder + '/tags_way_data%s' % (postfix)
 
 # download list contains all the coordinates of corresponding tags
 # in later works, we will download an image for each pair of coordinate
-download_list_csv = osm_tags_folder + './download_list.csv'
+download_list_csv = osm_tags_folder + '/download_list%s.csv' % (postfix)
 
 # downloading parameters
 if debug:
@@ -67,13 +73,13 @@ min_samples_per_category = samples_per_category / 2
 KEY = 'AIzaSyDjldHb_52Ui1etlmLORjFS_5xZv3yMjNg'
 
 # image folder
-google_image_folder = images_folder + '/google_images'
+google_image_folder = images_folder + '/google_images%s' % (postfix)
 
 
 ## features
 
 # image list
-image_list_txt = features_folder + '/image_list.txt'
+image_list_txt = features_folder + '/image_list%s.txt' % (postfix)
 
 # caffe binary
 caffe_root = '../caffe/'
@@ -83,12 +89,12 @@ caffe_proto_text = resnet_folder + '/ResNet-152-deploy.prototxt'
 use_gpu = False
 
 # deep feature folder
-deep_features_folder = features_folder + '/deep_features'
+deep_features_folder = features_folder + '/deep_features%s' % (postfix)
 # tags number
 tags_number = 144
 resnet_batch = 10
 extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
-x_train_file = features_folder + '/x_train.pkl'
-x_test_file = features_folder + '/x_test.pkl'
-y_train_file = features_folder + '/y_train.pkl'
-y_test_file = features_folder + '/y_test.pkl'
+x_train_file = features_folder + '/x_train%s.pkl' % (postfix)
+x_test_file = features_folder + '/x_test%s.pkl' % (postfix)
+y_train_file = features_folder + '/y_train%s.pkl' % (postfix)
+y_test_file = features_folder + '/y_test%s.pkl' % (postfix)

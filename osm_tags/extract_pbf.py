@@ -1,7 +1,7 @@
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
-from config import tags_csv, pbf_file, tags_node_data_folder, tags_way_data_folder
+from config import tags_csv, pbf_file, tags_node_data_folder, tags_way_data_folder, debug
 
 if not os.path.exists(tags_node_data_folder):
     os.makedirs(tags_node_data_folder)
@@ -29,19 +29,27 @@ with open(tags_csv) as f:
         if osm_type == 'way':
             osm_tag_file = '%s/%s.osm' % (tags_way_data_folder, key_value)
             json_tag_file = '%s/%s.geojson' % (tags_way_data_folder, key_value)
-            type_filter = 'accept-ways %s=%s --used-node' % (key, val)
+            type_filter = '--tf accept-ways %s=%s --used-node' % (key, val)
         else:
             osm_tag_file = '%s/%s.osm' % (tags_node_data_folder, key_value)
             json_tag_file = '%s/%s.geojson' % (tags_node_data_folder, key_value)
             type_filter = '--node-key-value keyValueList="%s"' % (key_value)
 
-        extract_com = 'osmosis --read-pbf %s %s %s --write-xml %s' % (pbf_file, type_filter, spatial_filter, osm_tag_file)
+        if debug:
+            print tags_way_data_folder, tags_node_data_folder
+            print osm_tag_file
 
-        print extract_com
-        os.system(extract_com)
+        # generate if not exist
+        if not os.path.exists(json_tag_file):
+            extract_com = 'osmosis --read-pbf %s %s %s --write-xml %s' % (pbf_file, type_filter, spatial_filter, osm_tag_file)
 
-        convert_com = 'osmtogeojson %s > %s' % (osm_tag_file, json_tag_file)
-        print convert_com
-        os.system(convert_com)
-        # delete tem files, otherwise the disk usage will big!
-        os.remove(osm_tag_file)
+            print extract_com
+            os.system(extract_com)
+
+            convert_com = 'osmtogeojson %s > %s' % (osm_tag_file, json_tag_file)
+            print convert_com
+            os.system(convert_com)
+            # delete tem files, otherwise the disk usage will big!
+            os.remove(osm_tag_file)
+        else:
+            print '%s already exist, skip' % (json_tag_file)

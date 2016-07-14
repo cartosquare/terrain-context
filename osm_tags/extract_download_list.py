@@ -5,7 +5,7 @@ import json
 import numpy as np
 import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
-from config import tags_csv, samples_per_category, min_samples_per_category, lng_offset, lat_offset, tags_node_data_folder, tags_way_data_folder, download_list_csv
+from config import tags_csv, samples_per_category, min_samples_per_category, lng_offset, lat_offset, tags_node_data_folder, tags_way_data_folder, download_list_csv, debug
 
 with open(tags_csv) as f:
     count = 0
@@ -42,17 +42,27 @@ with open(tags_csv) as f:
             total_features = len(data['features'])
 
             for feature in data['features']:
+                if len(coordinates_map[label]) >= samples_per_category:
+                    break
+
                 if osm_type == 'way':
+                    # if debug:
+                    #    print 'process way'
                     if (feature['geometry']['type'] == 'Point' or 'properties' not in feature or key not in feature['properties'] or feature['properties'][key] != val):
                         continue
 
                     if feature['geometry']['type'] == 'Polygon':
                         rings = feature['geometry']['coordinates']
                         coord_len = len(rings[0])
-
+                        # if debug:
+                        #    print '\tprocess polygon'
                         if total_features > samples_per_category:
+                            # if debug:
+                            #    print '\trandom select a vertice'
                             coordinates_map[label].append(rings[0][randint(0, coord_len - 1)])
                         else:
+                            # if debug:
+                            #    print 'discrect polygon ...'
                             geojson = json.dumps(feature['geometry'])
                             # print geojson
 
@@ -70,10 +80,16 @@ with open(tags_csv) as f:
                                         coordinates_map[label].append([x, y])
 
                     elif feature['geometry']['type'] == 'LineString':
+                        # if debug:
+                        #   print '\tprocess linestring'
                         line = feature['geometry']['coordinates']
                         if total_features > samples_per_category:
+                            # if debug:
+                            #    print '\trandom select a vertice'
                             coordinates_map[label].append(line[randint(0, len(line) - 1)])
                         else:
+                            # if debug:
+                            #    print 'discrect linestring ...'
                             last_lng = line[0][0]
                             last_lat = line[0][1]
                             for idx in range(1, len(line)):
@@ -88,13 +104,18 @@ with open(tags_csv) as f:
                     else:
                         print 'unknow geometry type: ', feature['geometry']['type']
                 elif osm_type == 'node':
+                    # if debug:
+                    #    print 'process node'
                     # NEED TO CHECK THIS LINE!
                     coordinates_map[label].append(feature['geometry']['coordinates'])
                 else:
                     print 'Invalid osm type', osm_type
 
-        csv_handle = open(download_list_csv, 'w')
-        for tag, coord in coordinates_map:
-            print 'label %s has %d samples' % (tag, len(coord))
+    # save all the coordinate pair
+    csv_handle = open(download_list_csv, 'w')
+    for tag in coordinates_map:
+        coordinates = coordinates_map[tag]
+        print 'label %s has %d samples' % (tag, len(coordinates_map[tag]))
+        for coord in coordinates:
             csv_handle.write('%.7f,%.7f,%s\n' % (coord[0], coord[1], tag))
-        csv_handle.close()
+    csv_handle.close()

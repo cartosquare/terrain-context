@@ -1,5 +1,7 @@
 google_images/
 deep_features/
+*_test/
+*_test*
 .ipynb_checkpoints/
 image_list.txt
 *.pkl
