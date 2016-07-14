@@ -1,5 +1,6 @@
 google_images/
 deep_features/
+caffenet/
 *_test/
 *_test*
 .ipynb_checkpoints/

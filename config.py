@@ -2,6 +2,11 @@
 import math
 
 ## general folders
+
+## debug switch
+## Warning: changing debug to True will not let caffe extract_feature
+## to process image_list_test.txt, if you want do so, change corresponding
+## model prototex file
 debug = True
 
 # osm tags folder
@@ -12,9 +17,6 @@ images_folder = './images'
 
 # features folder
 features_folder = './features'
-
-# renet folder
-resnet_folder = './resnet'
 
 ## osm tags
 
@@ -84,14 +86,30 @@ image_list_txt = features_folder + '/image_list%s.txt' % (postfix)
 # caffe binary
 caffe_root = '../caffe/'
 caffe_extract_features_bin = '../caffe/build/tools/extract_features.bin'
-caffe_model_file = resnet_folder + '/ResNet-152-model.caffemodel'
-caffe_proto_text = resnet_folder + '/ResNet-152-deploy.prototxt'
+
+# caffe model, can be resnet or bvlc
+caffemodel = 'resnet'
+
+if caffemodel == 'resnet':
+    ## deep-residual-networks
+    caffe_model_file = './resnet/ResNet-152-model.caffemodel'
+    caffe_proto_text = './resnet/ResNet-152-deploy.prototxt'
+    blob_name = 'fc1000'
+else:
+    # caffe bvlc model
+    caffe_model_file = './caffenet/bvlc_reference_caffenet.caffemodel'
+    caffe_proto_text = './caffenet/imagenet_val.prototxt'
+    blob_name = 'fc7'
+
 use_gpu = False
 
 # deep feature folder
 deep_features_folder = features_folder + '/deep_features%s' % (postfix)
 # tags number
-tags_number = 144
+if debug:
+    tags_number = 3
+else:
+    tags_number = 144
 resnet_batch = 10
 extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
 x_train_file = features_folder + '/x_train%s.pkl' % (postfix)
