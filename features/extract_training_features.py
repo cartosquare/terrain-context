@@ -13,6 +13,7 @@ if use_gpu:
 else:
     db_type_str = 'CPU'
 
+print '#batch ', extract_feature_batch
 # generate deep feature
 cmd = '%s %s %s fc1000 %s %d leveldb db_type %s' % (caffe_extract_features_bin, caffe_model_file, caffe_proto_text, deep_features_folder, extract_feature_batch, db_type_str)
 os.system(cmd)

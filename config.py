@@ -1,7 +1,8 @@
 ### This file contains all the configure parameters we need.
+import math
 
 ## general folders
-debug = False
+debug = True
 
 # osm tags folder
 osm_tags_folder = './osm_tags'
@@ -79,11 +80,14 @@ caffe_root = '../caffe/'
 caffe_extract_features_bin = '../caffe/build/tools/extract_features.bin'
 caffe_model_file = resnet_folder + '/ResNet-152-model.caffemodel'
 caffe_proto_text = resnet_folder + '/ResNet-152-deploy.prototxt'
-use_gpu = True
+use_gpu = False
 
 # deep feature folder
 deep_features_folder = features_folder + '/deep_features'
-extract_feature_batch = samples_per_category
+# tags number
+tags_number = 144
+resnet_batch = 10
+extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
 x_train_file = features_folder + '/x_train.pkl'
 x_test_file = features_folder + '/x_test.pkl'
 y_train_file = features_folder + '/y_train.pkl'
