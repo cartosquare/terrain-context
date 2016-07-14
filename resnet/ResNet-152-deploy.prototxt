@@ -11,7 +11,7 @@ layer {
   }
   image_data_param {
     source: "./features/image_list.txt"
-    batch_size: 10
+    batch_size: 50
     new_height: 224
     new_width: 224
   }

@@ -7,7 +7,7 @@ import math
 ## Warning: changing debug to True will not let caffe extract_feature
 ## to process image_list_test.txt, if you want do so, change corresponding
 ## model prototex file
-debug = True
+debug = False
 
 # osm tags folder
 osm_tags_folder = './osm_tags'
@@ -110,7 +110,7 @@ if debug:
     tags_number = 2
 else:
     tags_number = 144
-resnet_batch = 10
+resnet_batch = 50
 extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
 x_train_file = features_folder + '/x_train%s.pkl' % (postfix)
 x_test_file = features_folder + '/x_test%s.pkl' % (postfix)
