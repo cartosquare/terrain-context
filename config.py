@@ -88,7 +88,7 @@ caffe_root = '../caffe/'
 caffe_extract_features_bin = '../caffe/build/tools/extract_features.bin'
 
 # caffe model, can be resnet or bvlc
-caffemodel = 'resnet'
+caffemodel = 'bvlc'
 
 if caffemodel == 'resnet':
     ## deep-residual-networks
