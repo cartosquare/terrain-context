@@ -107,7 +107,7 @@ use_gpu = False
 deep_features_folder = features_folder + '/deep_features%s' % (postfix)
 # tags number
 if debug:
-    tags_number = 3
+    tags_number = 2
 else:
     tags_number = 144
 resnet_batch = 10
