@@ -1,13 +1,15 @@
 import numpy as np
 from sklearn.cross_validation import train_test_split
 import cPickle
+import pandas as pd
+from itertools import compress
 
 # The caffe module needs to be on the Python path;
 #  we'll add it here explicitly.
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
-from config import caffe_root, deep_features_folder, x_train_file, x_test_file, y_train_file, y_test_file, image_list_txt, debug
+from config import caffe_root, deep_features_folder, x_train_file, x_test_file, y_train_file, y_test_file, image_list_txt, debug, tags_number
 sys.path.insert(0, caffe_root + 'python')
 
 import caffe
@@ -30,21 +32,46 @@ for key, value in db.RangeIter():
     else:
         features = np.row_stack((features, feat))
 print features.shape
-# print features[12]
+print features[10]
 
-labels = list()
-with open(image_list_txt) as f:
-    for line in f:
-        (filename, label) = line.strip().split()
-        labels.append(label)
+image_list = pd.read_csv(image_list_txt, header=None, names=['path', 'label'], delimiter=' ')
+print image_list.columns
+print image_list.shape
 
-print len(labels)
+X_train = list()
+X_test = list()
+y_train = list()
+y_test = list()
+first_label = True
+for label in range(0, tags_number):
+    # extract train and test set for each label
+    mask = (image_list['label'] == label)
+    print '#label: %d, #samples: %d' % (label, np.sum(mask))
 
-X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.25, random_state=42)
+    # check this !!!
+    sub_features = list(compress(features, mask.values.tolist()))
+    sub_labels = image_list['label'][mask].values.tolist()
+    X_train_sub, X_test_sub, y_train_sub, y_test_sub = train_test_split(sub_features, sub_labels, test_size=0.25, random_state=42)
 
-print X_train.shape
+    print '#x_train: %d, #x_test: %d, #y_train: %d, y_test: %d' % (len(X_train_sub), len(X_test_sub), len(y_train_sub), len(y_test_sub))
+
+    if first_label:
+        first_label = False
+        X_train = X_train_sub
+        X_test = X_test_sub
+        y_train = y_train_sub
+        y_test = y_test_sub
+    else:
+        X_train = np.row_stack((X_train, X_train_sub))
+        X_test = np.row_stack((X_test, X_test_sub))
+        y_train = y_train + y_train_sub
+        y_test = y_test + y_test_sub
+
+print 'train split: '
+print len(X_train)
+print len(X_test)
+print 'label split: '
 print len(y_train)
-print X_test.shape
 print len(y_test)
 
 with open(x_train_file, 'wb') as f:
