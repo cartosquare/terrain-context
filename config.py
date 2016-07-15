@@ -104,7 +104,7 @@ else:
 use_gpu = False
 
 # deep feature folder
-deep_features_folder = features_folder + '/deep_features%s' % (postfix)
+deep_features_folder = features_folder + '/deep_features%s_%s' % (caffemodel, postfix)
 
 # tags number
 if debug:
@@ -113,7 +113,7 @@ else:
     tags_number = 144
 resnet_batch = 50
 extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
-x_train_file = features_folder + '/x_train%s.pkl' % (postfix)
-x_test_file = features_folder + '/x_test%s.pkl' % (postfix)
-y_train_file = features_folder + '/y_train%s.pkl' % (postfix)
-y_test_file = features_folder + '/y_test%s.pkl' % (postfix)
+x_train_file = features_folder + '/x_train%s_%s.pkl' % (caffemodel, postfix)
+x_test_file = features_folder + '/x_test%s_%s.pkl' % (caffemodel, postfix)
+y_train_file = features_folder + '/y_train%s_%s.pkl' % (caffemodel, postfix)
+y_test_file = features_folder + '/y_test%s_%s.pkl' % (caffemodel, postfix)
