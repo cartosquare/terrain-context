@@ -51,7 +51,7 @@ X_test = X_test.astype('float32')
 ## train
 start = time.time()
 
-model.fit(X_train, Y_train, nb_epoch=10, batch_size=2, validation_data=(X_test, Y_test), shuffle=True)
+model.fit(X_train, Y_train, nb_epoch=10, batch_size=32, validation_data=(X_test, Y_test), shuffle=True)
 
 end = time.time()
 print('Time elapsed: %f' % (end - start))

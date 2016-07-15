@@ -33,6 +33,7 @@ for key, value in db.RangeIter():
     if count % 100 == 0:
         print 'processed %d' % (count)
 
+features = np.array(features)
 print len(features)
 print len(features[0])
 
