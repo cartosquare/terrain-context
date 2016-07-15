@@ -7,7 +7,7 @@ import math
 ## Warning: changing debug to True will not let caffe extract_feature
 ## to process image_list_test.txt, if you want do so, change corresponding
 ## model prototex file
-debug = False
+debug = True
 
 # osm tags folder
 osm_tags_folder = './osm_tags'

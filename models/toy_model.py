@@ -17,6 +17,7 @@ import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 from config import x_train_file, x_test_file, y_train_file, y_test_file, tags_number
 
+import pandas as pd
 
 # loading data
 with open(x_train_file, 'rb') as f:
@@ -28,12 +29,26 @@ with open(y_train_file, 'rb') as f:
 with open(y_test_file, 'rb') as f:
     y_test = cPickle.load(f)
 
+X_train = pd.DataFrame(X_train)
+X_test = pd.DataFrame(X_test)
+print X_train.shape
+print X_test.shape
+
+print len(y_train)
+print len(y_test)
+print y_train
+print y_test
+
 print(X_train.shape[0], 'train samples')
 print(X_test.shape[0], 'test samples')
 
 # convert class vectors to binary class matrices
 Y_train = np_utils.to_categorical(y_train, tags_number)
 Y_test = np_utils.to_categorical(y_test, tags_number)
+
+print 'final'
+print Y_train.shape
+print Y_test.shape
 
 # a simple two-layer network
 model = Sequential()
@@ -50,7 +65,7 @@ X_test = X_test.astype('float32')
 ## train
 start = time.time()
 
-model.fit(X_train, Y_train, nb_epoch=10, batch_size=32, validation_data=(X_test, Y_test), shuffle=True)
+model.fit(X_train, Y_train, nb_epoch=10, batch_size=2, validation_data=(X_test, Y_test), shuffle=True)
 
 end = time.time()
 print('Time elapsed: %f' % (end - start))
