@@ -21,18 +21,20 @@ db = leveldb.LevelDB(deep_features_folder)
 # load features
 count = 1
 keys = list()
+features = list()
 for key, value in db.RangeIter():
     datum = caffe_pb2.Datum.FromString(db.Get(key))
     data = caffe.io.datum_to_array(datum)
     feat = np.transpose(data[:, 0])[0]
     keys.append(key)
-    if count == 1:
-        features = feat
-        count += 1
-    else:
-        features = np.row_stack((features, feat))
-print features.shape
-print features[10]
+    features.append(feat)
+
+    count += 1
+    if count % 100 == 0:
+        print 'processed %d' % (count)
+
+print len(features)
+print len(features[0])
 
 image_list = pd.read_csv(image_list_txt, header=None, names=['path', 'label'], delimiter=' ')
 print image_list.columns
@@ -42,7 +44,6 @@ X_train = list()
 X_test = list()
 y_train = list()
 y_test = list()
-first_label = True
 for label in range(0, tags_number):
     # extract train and test set for each label
     mask = (image_list['label'] == label)
@@ -55,21 +56,14 @@ for label in range(0, tags_number):
 
     print '#x_train: %d, #x_test: %d, #y_train: %d, y_test: %d' % (len(X_train_sub), len(X_test_sub), len(y_train_sub), len(y_test_sub))
 
-    if first_label:
-        first_label = False
-        X_train = X_train_sub
-        X_test = X_test_sub
-        y_train = y_train_sub
-        y_test = y_test_sub
-    else:
-        X_train = np.row_stack((X_train, X_train_sub))
-        X_test = np.row_stack((X_test, X_test_sub))
-        y_train = y_train + y_train_sub
-        y_test = y_test + y_test_sub
+    X_train = X_train + X_train_sub
+    X_test = X_test + X_test_sub
+    y_train = y_train + y_train_sub
+    y_test = y_test + y_test_sub
 
 print 'train split: '
-print len(X_train)
-print len(X_test)
+print 'train simension: %d, %d' % (len(X_train), len(X_train[0]))
+print 'test simension: %d, %d' % (len(X_test), len(X_test[0]))
 print 'label split: '
 print len(y_train)
 print len(y_test)
@@ -88,10 +82,10 @@ with open(y_test_file, 'wb') as f:
 if debug:
     with open(x_train_file, 'rb') as f:
         x_train_valid = cPickle.load(f)
-        print x_train_valid.shape
+        print 'validate train simension: %d, %d' % (len(x_train_valid), len(x_train_valid[0]))
     with open(x_test_file, 'rb') as f:
         x_test_valid = cPickle.load(f)
-        print x_test_valid.shape
+        print 'validate test simension: %d, %d' % (len(x_test_valid), len(x_test_valid[0]))
     with open(y_train_file, 'rb') as f:
         y_train_valid = cPickle.load(f)
         print len(y_train_valid)

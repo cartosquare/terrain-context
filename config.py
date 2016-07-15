@@ -105,6 +105,7 @@ use_gpu = False
 
 # deep feature folder
 deep_features_folder = features_folder + '/deep_features%s' % (postfix)
+
 # tags number
 if debug:
     tags_number = 2
