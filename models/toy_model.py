@@ -43,6 +43,7 @@ model.add(Dropout(0.5))
 model.add(Dense(tags_number, activation='sigmoid'))
 
 ## loss
+# try rmsprop
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 X_train = X_train.astype('float32')
@@ -51,7 +52,25 @@ X_test = X_test.astype('float32')
 ## train
 start = time.time()
 
+# fit
 model.fit(X_train, Y_train, nb_epoch=10, batch_size=32, validation_data=(X_test, Y_test), shuffle=True)
+
+# evaluate
+score, acc = model.evaluate(X_test, Y_test, batch_size=32)
+print 'top-1 error: %f' % (acc)
+
+# predict
+pred = model.predict(X_test)
+correct = 0
+for row in range(0, len(pred)):
+    a = list(pred[row])
+    b = sorted(range(len(a)), key=lambda i: a[i])[-5:]
+
+    if y_test[row] in b:
+        correct += 1
+
+top_5_err = float(correct) / float(len(y_test))
+print 'top-5 error: %f' % (top_5_err)
 
 end = time.time()
 print('Time elapsed: %f' % (end - start))
