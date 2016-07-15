@@ -44,6 +44,8 @@ X_train = list()
 X_test = list()
 y_train = list()
 y_test = list()
+
+first_label = True
 for label in range(0, tags_number):
     # extract train and test set for each label
     mask = (image_list['label'] == label)
@@ -56,10 +58,18 @@ for label in range(0, tags_number):
 
     print '#x_train: %d, #x_test: %d, #y_train: %d, y_test: %d' % (len(X_train_sub), len(X_test_sub), len(y_train_sub), len(y_test_sub))
 
-    X_train = X_train + X_train_sub
-    X_test = X_test + X_test_sub
-    y_train = y_train + y_train_sub
-    y_test = y_test + y_test_sub
+    if first_label:
+        first_label = False
+        X_train = X_train_sub
+        X_test = X_test_sub
+        y_train = y_train_sub
+        y_test = y_test_sub
+    else:
+        X_train = np.row_stack((X_train, X_train_sub))
+        X_test = np.row_stack((X_test, X_test_sub))
+        y_train = y_train + y_train_sub
+        y_test = y_test + y_test_sub
+
 
 print 'train split: '
 print 'train simension: %d, %d' % (len(X_train), len(X_train[0]))
@@ -82,10 +92,10 @@ with open(y_test_file, 'wb') as f:
 if debug:
     with open(x_train_file, 'rb') as f:
         x_train_valid = cPickle.load(f)
-        print 'validate train simension: %d, %d' % (len(x_train_valid), len(x_train_valid[0]))
+        print 'validate train simension: %d, %d' % (x_train_valid.shape[0], x_train_valid.shape[1])
     with open(x_test_file, 'rb') as f:
         x_test_valid = cPickle.load(f)
-        print 'validate test simension: %d, %d' % (len(x_test_valid), len(x_test_valid[0]))
+        print 'validate test simension: %d, %d' % (x_test_valid.shape[0], x_test_valid.shape[1])
     with open(y_train_file, 'rb') as f:
         y_train_valid = cPickle.load(f)
         print len(y_train_valid)

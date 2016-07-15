@@ -29,26 +29,12 @@ with open(y_train_file, 'rb') as f:
 with open(y_test_file, 'rb') as f:
     y_test = cPickle.load(f)
 
-X_train = pd.DataFrame(X_train)
-X_test = pd.DataFrame(X_test)
-print X_train.shape
-print X_test.shape
-
-print len(y_train)
-print len(y_test)
-print y_train
-print y_test
-
-print(X_train.shape[0], 'train samples')
-print(X_test.shape[0], 'test samples')
+print(X_train.shape[0], X_train.shape[1], 'train samples')
+print(X_test.shape[0], X_test.shape[1], 'test samples')
 
 # convert class vectors to binary class matrices
 Y_train = np_utils.to_categorical(y_train, tags_number)
 Y_test = np_utils.to_categorical(y_test, tags_number)
-
-print 'final'
-print Y_train.shape
-print Y_test.shape
 
 # a simple two-layer network
 model = Sequential()
