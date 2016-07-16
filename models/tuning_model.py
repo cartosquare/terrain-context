@@ -65,7 +65,8 @@ def score(param):
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
     ## train
-    model.fit(X_train, Y_train, nb_epoch=int(param['nb_epoch']), batch_size=int(param['batch_size']), validation_data=(X_test, Y_test), shuffle=True)
+    # model.fit(X_train, Y_train, nb_epoch=int(param['nb_epoch']), batch_size=int(param['batch_size']), validation_data=(X_test, Y_test), shuffle=True)
+    model.fit(X_train, Y_train, nb_epoch=int(param['nb_epoch']), batch_size=int(param['batch_size']), validation_split=0, verbose=0, shuffle=True)
 
     ## prediction
     pred = model.predict(X_test, verbose=0)
@@ -126,19 +127,4 @@ trials = Trials()
 best_param = optimize(trials)
 print best_param
 
-parameters = ['hidden_units', 'hidden_layers', 'input_dropout', 'hidden_dropout', 'hidden_activation', 'output_activation', 'batch_size', 'nb_epoch']
-
-cols = len(parameters)
-f, axes = plt.subplots(nrows=1, ncols=cols, figsize=(40, 7))
-cmap = plt.cm.jet
-for i, val in enumerate(parameters):
-    xs = np.array([t['misc']['vals'][val] for t in trials.trials]).ravel()
-    ys = [t['result']['loss'] for t in trials.trials]
-    xs, ys = zip(*sorted(zip(xs, ys)))
-    axes[i].scatter(xs, ys, s=20, linewidth=0.01, alpha=0.25, c=cmap(float(i) / len(parameters)))
-    axes[i].set_title(val)
-    axes[i].set_ylim([0.1, 0.8])
-
-learn_fig = './learn.png'
-savefig(learn_fig)
-plt.show()
+score(best_param)
