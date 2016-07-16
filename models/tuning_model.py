@@ -92,8 +92,8 @@ def optimize(trials):
         "hidden_dropout": hp.quniform("hidden_dropout", 0, 0.9, 0.1),
         "hidden_activation": hp.choice("hidden_activation", ["relu", "prelu", "sigmoid"]),
         "output_activation": hp.choice("output_activation", ["relu", "sigmoid"]),
-        "batch_size": hp.choice("batch_size", [16, 32, 64, 128, 256]),
-        "nb_epoch": hp.choice("nb_epoch", [10, 20, 30, 40, 50])
+        "batch_size": hp.choice("batch_size", [16, 32, 64, 128, 256, 512, 1024]),
+        "nb_epoch": hp.choice("nb_epoch", [10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
     }
 
     best = fmin(score, space, algo=tpe.suggest, trials=trials, max_evals=300)
