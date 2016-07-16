@@ -69,8 +69,8 @@ for row in range(0, len(pred)):
     if y_test[row] in b:
         correct += 1
 
-top_5_err = float(correct) / float(len(y_test))
-print 'top-5 error: %f' % (top_5_err)
+top_5_error = 1 - float(correct) / float(len(y_test))
+print 'top-5 error: %f' % (top_5_error)
 
 end = time.time()
 print('Time elapsed: %f' % (end - start))
