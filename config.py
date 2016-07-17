@@ -58,7 +58,7 @@ download_list_csv = osm_tags_folder + '/download_list%s.csv' % (postfix)
 if debug:
     samples_per_category = 10
 else:
-    samples_per_category = 500
+    samples_per_category = 1000
 
 # space for discrect way features
 # Calculated for latitude 25.769322
@@ -76,7 +76,7 @@ min_samples_per_category = samples_per_category / 2
 KEY = 'AIzaSyDjldHb_52Ui1etlmLORjFS_5xZv3yMjNg'
 
 # image folder
-google_image_folder = images_folder + '/google_images%s' % (postfix)
+google_image_folder = images_folder + '/google_images_group%s' % (postfix)
 
 
 ## features
@@ -108,10 +108,12 @@ use_gpu = False
 deep_features_folder = features_folder + '/deep_features_%s%s' % (caffemodel, postfix)
 
 # tags number
+## You shold know your number of tags after executing filt_tags.py, which you can see in the unique_tags.csv.
+## Warning: You should set this manually!!!
 if debug:
     tags_number = 2
 else:
-    tags_number = 144
+    tags_number = 38
 resnet_batch = 50
 extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
 x_train_file = features_folder + '/x_train_%s%s.pkl' % (caffemodel, postfix)
@@ -140,14 +142,14 @@ if debug_model:
 else:
     space = {
         'batch_norm': hp.choice('batch_norm', [True, False]),
-        'hidden_units': hp.choice('hidden_units', [64, 128, 256, 512, 1024]),
-        'hidden_layers': hp.choice('hidden_layers', [1, 2, 3, 4, 5, 6]),
+        'hidden_units': hp.choice('hidden_units', [64, 128, 256]),
+        'hidden_layers': hp.choice('hidden_layers', [1, 2, 3, 4]),
         'input_dropout': hp.quniform('input_dropout', 0, 0.9, 0.1),
         'hidden_dropout': hp.quniform('hidden_dropout', 0, 0.9, 0.1),
         'hidden_activation': hp.choice('hidden_activation', ['relu', 'prelu', 'sigmoid']),
         'output_activation': hp.choice('output_activation', ['relu', 'sigmoid']),
-        'batch_size': hp.choice('batch_size', [16, 32, 64, 128, 256, 512, 1024]),
-        'nb_epoch': hp.choice('nb_epoch', [10, 20, 30, 40, 50, 60, 70, 80, 90, 100])
+        'batch_size': hp.choice('batch_size', [16, 32, 64, 128, 256]),
+        'nb_epoch': hp.choice('nb_epoch', [10, 20, 30, 40, 50])
     }
-    max_evaluate = 500
+    max_evaluate = 250
     verbose_output = 0

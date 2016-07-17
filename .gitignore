@@ -1,6 +1,8 @@
-google_images/
-deep_features/
+google_images*/
+deep_features*/
 caffenet/
+tags_node_data*/
+tags_way_data*/
 *_test/
 *_test*
 .ipynb_checkpoints/
