@@ -38,9 +38,13 @@ Y_test = np_utils.to_categorical(y_test, tags_number)
 
 # a simple two-layer network
 model = Sequential()
-model.add(Dense(256, activation='relu', input_dim=X_train.shape[1], init='glorot_uniform'))
-model.add(Dropout(0.5))
-model.add(Dense(tags_number, activation='sigmoid'))
+model.add(Dense(256, input_dim=X_train.shape[1], init='glorot_uniform'))
+model.add(BatchNormalization(input_shape=(256,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.7))
+
+model.add(Dense(tags_number))
+model.add(Activation('sigmoid'))
 
 ## loss
 # try rmsprop
@@ -53,10 +57,10 @@ X_test = X_test.astype('float32')
 start = time.time()
 
 # fit
-model.fit(X_train, Y_train, nb_epoch=10, batch_size=32, validation_data=(X_test, Y_test), shuffle=True)
+model.fit(X_train, Y_train, nb_epoch=30, batch_size=16, shuffle=True)
 
 # evaluate
-score, acc = model.evaluate(X_test, Y_test, batch_size=32)
+score, acc = model.evaluate(X_test, Y_test, batch_size=16)
 print 'top-1 error: %f' % (acc)
 
 # predict

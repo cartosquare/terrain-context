@@ -26,39 +26,26 @@ def optimize(trials):
 
 
 def score(param):
+    print param
+
     hidden_units = int(param['hidden_units'])
 
     ## regression with keras' deep neural networks
     model = Sequential()
 
     ## hidden layers
-    hidden_layers = int(param['hidden_layers'])
-    first_layer = True
-    while hidden_layers > 0:
-        # Dense layer
-        if first_layer:
-            model.add(Dense(hidden_units, input_dim=X_train.shape[1], init='glorot_uniform'))
-        else:
-            model.add(Dense(hidden_units, init='glorot_uniform'))
+    model = Sequential()
+    model.add(Dense(hidden_units, input_dim=X_train.shape[1], init='glorot_uniform'))
 
-        # batch normal
-        if param['batch_norm']:
-            model.add(BatchNormalization(input_shape=(hidden_units,)))
+    if param['batch_norm']:
+        model.add(BatchNormalization(input_shape=(hidden_units,)))
 
-        # Activation layer
-        if param['hidden_activation'] == 'prelu':
-            model.add(PReLU(input_shape=(hidden_units,)))
-        else:
-            model.add(Activation(param['hidden_activation']))
+    if param['hidden_activation'] == 'prelu':
+        model.add(PReLU(input_shape=(hidden_units,)))
+    else:
+        model.add(Activation(param['hidden_activation']))
 
-        # dropout layer
-        if first_layer:
-            first_layer = False
-            model.add(Dropout(param['input_dropout']))
-        else:
-            model.add(Dropout(param['hidden_dropout']))
-
-        hidden_layers -= 1
+    model.add(Dropout(param['dropout']))
 
     ## output layer
     model.add(Dense(tags_number, init='glorot_uniform'))

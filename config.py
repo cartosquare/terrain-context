@@ -141,9 +141,7 @@ else:
     space = {
         'batch_norm': hp.choice('batch_norm', [True, False]),
         'hidden_units': hp.choice('hidden_units', [64, 128, 256, 512]),
-        'hidden_layers': hp.choice('hidden_layers', [1, 2, 3, 4, 5, 6]),
-        'input_dropout': hp.quniform('input_dropout', 0, 0.9, 0.1),
-        'hidden_dropout': hp.quniform('hidden_dropout', 0, 0.9, 0.1),
+        'input_dropout': hp.quniform('dropout', 0, 0.9, 0.1),
         'hidden_activation': hp.choice('hidden_activation', ['relu', 'prelu', 'sigmoid']),
         'output_activation': hp.choice('output_activation', ['relu', 'sigmoid']),
         'batch_size': hp.choice('batch_size', [16, 32, 64, 128]),
