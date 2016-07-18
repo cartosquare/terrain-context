@@ -77,12 +77,14 @@ KEY = 'AIzaSyDjldHb_52Ui1etlmLORjFS_5xZv3yMjNg'
 
 # image folder
 google_image_folder = images_folder + '/google_images%s' % (postfix)
-
+# L18_image_folder = images_folder + '/L18_google_images%s' % (postfix)
+L18_image_folder = images_folder + '/google_images_test'
 
 ## features
 
 # image list
 image_list_txt = features_folder + '/image_list%s.txt' % (postfix)
+L18_image_list = features_folder + '/image_list_L18%s.txt' % (postfix)
 
 # caffe binary
 caffe_root = '../caffe/'
@@ -106,6 +108,7 @@ use_gpu = False
 
 # deep feature folder
 deep_features_folder = features_folder + '/deep_features_%s%s' % (caffemodel, postfix)
+L18_deep_features_folder = features_folder + '/L18_deep_features_%s%s' % (caffemodel, postfix)
 
 # tags number
 if debug:
@@ -113,7 +116,9 @@ if debug:
 else:
     tags_number = 144
 resnet_batch = 50
+L18_tiles_number = 123456
 extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
+L18_extract_feature_batch = int(math.ceil(float(L18_tiles_number) / float(resnet_batch)))
 x_train_file = features_folder + '/x_train_%s%s.pkl' % (caffemodel, postfix)
 x_test_file = features_folder + '/x_test_%s%s.pkl' % (caffemodel, postfix)
 y_train_file = features_folder + '/y_train_%s%s.pkl' % (caffemodel, postfix)
