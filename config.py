@@ -58,7 +58,7 @@ download_list_csv = osm_tags_folder + '/download_list%s.csv' % (postfix)
 if debug:
     samples_per_category = 10
 else:
-    samples_per_category = 1000
+    samples_per_category = 2000
 
 # space for discrect way features
 # Calculated for latitude 25.769322
