@@ -1,5 +1,7 @@
-google_images/
-deep_features/
+google_images*/
+deep_features*/
+tags_node_data*/
+tags_way_data*/
 caffenet/
 *_test/
 *_test*
