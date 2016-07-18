@@ -80,9 +80,41 @@ Y_test = np_utils.to_categorical(y_test, tags_number)
 
 # a simple two-layer network
 model = Sequential()
-model.add(Dense(256, activation='relu', input_dim=X_train.shape[1], init='glorot_uniform'))
-model.add(Dropout(0.5))
-model.add(Dense(tags_number, activation='sigmoid'))
+
+# {'hidden_units': 512, 'hidden_activation': 'relu', 'batch_size': 32, 'input_dropout': 0.2, 'hidden_dropout': 0.1, 'output_activation': 'sigmoid', 'hidden_layers': 6, 'nb_epoch': 30, 'batch_norm': True}
+hidden_unit = 512
+model.add(Dense(hidden_unit, input_dim=X_train.shape[1], init='glorot_uniform'))
+model.add(BatchNormalization(input_shape=(hidden_unit,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.2))
+
+model.add(Dense(hidden_unit, init='glorot_uniform'))
+model.add(BatchNormalization(input_shape=(hidden_unit,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.1))
+
+model.add(Dense(hidden_unit, init='glorot_uniform'))
+model.add(BatchNormalization(input_shape=(hidden_unit,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.1))
+
+model.add(Dense(hidden_unit, init='glorot_uniform'))
+model.add(BatchNormalization(input_shape=(hidden_unit,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.1))
+
+model.add(Dense(hidden_unit, init='glorot_uniform'))
+model.add(BatchNormalization(input_shape=(hidden_unit,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.1))
+
+model.add(Dense(hidden_unit, init='glorot_uniform'))
+model.add(BatchNormalization(input_shape=(hidden_unit,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.1))
+
+model.add(Dense(tags_number))
+model.add(Activation('sigmoid'))
 
 ## loss
 # try rmsprop
@@ -95,7 +127,7 @@ X_test = X_test.astype('float32')
 start = time.time()
 
 # fit
-model.fit(X_train, Y_train, nb_epoch=10, batch_size=32, shuffle=True)
+model.fit(X_train, Y_train, nb_epoch=30, batch_size=32, shuffle=True)
 
 end = time.time()
 print('Training Time: %f' % (end - start))
