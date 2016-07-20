@@ -19,6 +19,9 @@ images_folder = './images'
 # features folder
 features_folder = './features'
 
+# models folder
+models_folder = './models'
+
 ## osm tags
 
 # osm pbf format data
@@ -89,12 +92,12 @@ caffe_root = '../caffe/'
 caffe_extract_features_bin = '../caffe/build/tools/extract_features.bin'
 
 # caffe model, can be resnet or bvlc
-caffemodel = 'resnet'
+caffemodel = 'bvlc'
 
 if caffemodel == 'resnet':
     ## deep-residual-networks
-    caffe_model_file = './resnet/ResNet-152-model.caffemodel'
-    caffe_proto_text = './resnet/ResNet-152-deploy.prototxt'
+    caffe_model_file = './resnet/ResNet-50-model.caffemodel'
+    caffe_proto_text = './resnet/ResNet-50-deploy.prototxt'
     blob_name = 'fc1000'
 else:
     # caffe bvlc model
@@ -125,6 +128,8 @@ y_test_file = features_folder + '/y_test_%s%s.pkl' % (caffemodel, postfix)
 
 ## models
 debug_model = False
+model_architecture_file = models_folder + '/model_architecture.json'
+model_weights_file = models_folder + 'model_weights.h5'
 
 if debug_model:
     space = {

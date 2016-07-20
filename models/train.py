@@ -17,7 +17,7 @@ import numpy as np
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
-from config import x_train_file, x_test_file, y_train_file, y_test_file, tags_number, unique_tags_csv
+from config import x_train_file, x_test_file, y_train_file, y_test_file, tags_number, unique_tags_csv, model_architecture_file, model_weights_file
 
 
 def show_top5_error():
@@ -83,15 +83,6 @@ X_test = X_test.astype('float32')
 Y_train = np_utils.to_categorical(y_train, tags_number)
 Y_test = np_utils.to_categorical(y_test, tags_number)
 
-# {'hidden_units': 256, 'hidden_activation': 'relu', 'batch_size': 16, 'input_dropout': 0.7000000000000001, 'hidden_dropout': 0.0, 'output_activation': 'sigmoid', 'hidden_layers': 1, 'nb_epoch': 30, 'batch_norm': True}
-'''
-hidden_unit = X_train.shape[1]
-model.add(Dense(hidden_unit, input_dim=X_train.shape[1], init='glorot_uniform'))
-# model.add(BatchNormalization(input_shape=(hidden_unit,)))
-model.add(Activation('relu'))
-model.add(Dropout(0.5))
-'''
-
 hidden_unit = 256
 batchs = 16
 echos = 30
@@ -118,6 +109,19 @@ model.fit(X_train, Y_train, nb_epoch=echos, batch_size=batchs, shuffle=True, ver
 
 end = time.time()
 print('Training Time: %f' % (end - start))
+
+# save model
+json_string = model.to_json()
+open(model_architecture_file, 'w').write(json_string)
+model.save_weights(model_weights_file)
+
+'''
+# load model
+model = model_from_json(open('my_model_architecture.json').read())
+model.load_weights('my_model_weights.h5')
+# Finally, before it can be used, the model shall be compiled.
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+'''
 
 # evaluate
 score, acc = model.evaluate(X_test, Y_test, batch_size=batchs)
