@@ -91,12 +91,12 @@ caffe_root = '../caffe/'
 caffe_extract_features_bin = '../caffe/build/tools/extract_features.bin'
 
 # caffe model, can be resnet or bvlc
-caffemodel = 'bvlc'
+caffemodel = 'resnet'
 
 if caffemodel == 'resnet':
     ## deep-residual-networks
-    caffe_model_file = './resnet/ResNet-152-model.caffemodel'
-    caffe_proto_text = './resnet/ResNet-152-deploy.prototxt'
+    caffe_model_file = './resnet/ResNet-50-model.caffemodel'
+    caffe_proto_text = './resnet/ResNet-50-deploy.prototxt'
     blob_name = 'fc1000'
 else:
     # caffe bvlc model
