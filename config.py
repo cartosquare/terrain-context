@@ -58,7 +58,7 @@ download_list_csv = osm_tags_folder + '/download_list%s.csv' % (postfix)
 if debug:
     samples_per_category = 10
 else:
-    samples_per_category = 2000
+    samples_per_category = 5000
 
 # space for discrect way features
 # Calculated for latitude 25.769322
@@ -115,7 +115,8 @@ if debug:
 else:
     tags_number = 38
 resnet_batch = 50
-extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
+# extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
+extract_feature_batch = 1513
 x_train_file = features_folder + '/x_train_%s%s.pkl' % (caffemodel, postfix)
 x_test_file = features_folder + '/x_test_%s%s.pkl' % (caffemodel, postfix)
 y_train_file = features_folder + '/y_train_%s%s.pkl' % (caffemodel, postfix)
@@ -141,15 +142,10 @@ if debug_model:
     verbose_output = 1
 else:
     space = {
-        'batch_norm': hp.choice('batch_norm', [True, False]),
-        'hidden_units': hp.choice('hidden_units', [64, 128, 256]),
-        'hidden_layers': hp.choice('hidden_layers', [1, 2, 3, 4]),
-        'input_dropout': hp.quniform('input_dropout', 0, 0.9, 0.1),
-        'hidden_dropout': hp.quniform('hidden_dropout', 0, 0.9, 0.1),
-        'hidden_activation': hp.choice('hidden_activation', ['relu', 'prelu', 'sigmoid']),
-        'output_activation': hp.choice('output_activation', ['relu', 'sigmoid']),
-        'batch_size': hp.choice('batch_size', [16, 32, 64, 128, 256]),
+        'input_dropout': hp.quniform('input_dropout', 0, 0.9, 0.01),
+        'hidden_dropout': hp.quniform('hidden_dropout', 0, 0.9, 0.01),
+        'batch_size': hp.choice('batch_size', [16, 32, 64, 128]),
         'nb_epoch': hp.choice('nb_epoch', [10, 20, 30, 40, 50])
     }
-    max_evaluate = 250
+    max_evaluate = 100
     verbose_output = 0

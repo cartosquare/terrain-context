@@ -12,6 +12,8 @@ import time
 # serialization
 import cPickle
 
+import numpy as np
+
 import sys
 import os
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
@@ -61,6 +63,7 @@ def show_top5_error():
         idx = tags_number - i
         print 'label %d - %s top-5 error: %f' % (sorted_errors[idx], labels_loopup[sorted_errors[idx]], class_errors[sorted_errors[idx]])
 
+
 # loading data
 with open(x_train_file, 'rb') as f:
     X_train = cPickle.load(f)
@@ -73,67 +76,64 @@ with open(y_test_file, 'rb') as f:
 
 print(X_train.shape[0], X_train.shape[1], 'train samples')
 print(X_test.shape[0], X_test.shape[1], 'test samples')
+X_train = X_train.astype('float32')
+X_test = X_test.astype('float32')
 
 # convert class vectors to binary class matrices
 Y_train = np_utils.to_categorical(y_train, tags_number)
 Y_test = np_utils.to_categorical(y_test, tags_number)
 
+# {'hidden_units': 256, 'hidden_activation': 'relu', 'batch_size': 16, 'input_dropout': 0.7000000000000001, 'hidden_dropout': 0.0, 'output_activation': 'sigmoid', 'hidden_layers': 1, 'nb_epoch': 30, 'batch_norm': True}
+'''
+hidden_unit = X_train.shape[1]
+model.add(Dense(hidden_unit, input_dim=X_train.shape[1], init='glorot_uniform'))
+# model.add(BatchNormalization(input_shape=(hidden_unit,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.5))
+'''
+
+hidden_unit = 256
+batchs = 16
+echos = 30
+
 # a simple two-layer network
 model = Sequential()
 
-# {'hidden_units': 512, 'hidden_activation': 'relu', 'batch_size': 32, 'input_dropout': 0.2, 'hidden_dropout': 0.1, 'output_activation': 'sigmoid', 'hidden_layers': 6, 'nb_epoch': 30, 'batch_norm': True}
-hidden_unit = 512
 model.add(Dense(hidden_unit, input_dim=X_train.shape[1], init='glorot_uniform'))
 model.add(BatchNormalization(input_shape=(hidden_unit,)))
 model.add(Activation('relu'))
-model.add(Dropout(0.2))
-
-model.add(Dense(hidden_unit, init='glorot_uniform'))
-model.add(BatchNormalization(input_shape=(hidden_unit,)))
-model.add(Activation('relu'))
-model.add(Dropout(0.1))
-
-model.add(Dense(hidden_unit, init='glorot_uniform'))
-model.add(BatchNormalization(input_shape=(hidden_unit,)))
-model.add(Activation('relu'))
-model.add(Dropout(0.1))
-
-model.add(Dense(hidden_unit, init='glorot_uniform'))
-model.add(BatchNormalization(input_shape=(hidden_unit,)))
-model.add(Activation('relu'))
-model.add(Dropout(0.1))
-
-model.add(Dense(hidden_unit, init='glorot_uniform'))
-model.add(BatchNormalization(input_shape=(hidden_unit,)))
-model.add(Activation('relu'))
-model.add(Dropout(0.1))
-
-model.add(Dense(hidden_unit, init='glorot_uniform'))
-model.add(BatchNormalization(input_shape=(hidden_unit,)))
-model.add(Activation('relu'))
-model.add(Dropout(0.1))
+model.add(Dropout(0.7))
 
 model.add(Dense(tags_number))
-model.add(Activation('sigmoid'))
+model.add(Activation('softmax'))
 
 ## loss
-# try rmsprop
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-
-X_train = X_train.astype('float32')
-X_test = X_test.astype('float32')
 
 ## train
 start = time.time()
 
 # fit
-model.fit(X_train, Y_train, nb_epoch=30, batch_size=32, shuffle=True)
+model.fit(X_train, Y_train, nb_epoch=echos, batch_size=batchs, shuffle=True, verbose=0)
 
 end = time.time()
 print('Training Time: %f' % (end - start))
 
+# save model
+json_string = model.to_json()
+open('my_model_architecture.json', 'w').write(json_string)
+model.save_weights('my_model_weights.h5')
+
+'''
+# load model
+model = model_from_json(open('my_model_architecture.json').read())
+model.load_weights('my_model_weights.h5')
+# Finally, before it can be used, the model shall be compiled.
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+'''
+
 # evaluate
-score, acc = model.evaluate(X_test, Y_test, batch_size=32)
+score, acc = model.evaluate(X_test, Y_test, batch_size=batchs)
 print '\ntop-1 error: %f' % (acc)
 
 # predict
