@@ -108,7 +108,7 @@ else:
 use_gpu = False
 
 # deep feature folder
-deep_features_folder = features_folder + '/deep_features_%s%s' % (caffemodel, postfix)
+deep_features_folder = features_folder + '/deep_features_%s_%s%s' % (caffemodel, blob_name, postfix)
 
 # tags number
 ## You shold know your number of tags after executing filt_tags.py, which you can see in the unique_tags.csv.
@@ -116,20 +116,20 @@ deep_features_folder = features_folder + '/deep_features_%s%s' % (caffemodel, po
 if debug:
     tags_number = 2
 else:
-    tags_number = 38
+    tags_number = 32
 resnet_batch = 50
 # extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
-extract_feature_batch = 1513
-x_train_file = features_folder + '/x_train_%s%s.pkl' % (caffemodel, postfix)
-x_test_file = features_folder + '/x_test_%s%s.pkl' % (caffemodel, postfix)
-y_train_file = features_folder + '/y_train_%s%s.pkl' % (caffemodel, postfix)
-y_test_file = features_folder + '/y_test_%s%s.pkl' % (caffemodel, postfix)
+extract_feature_batch = 1400
+x_train_file = features_folder + '/x_train_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
+x_test_file = features_folder + '/x_test_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
+y_train_file = features_folder + '/y_train_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
+y_test_file = features_folder + '/y_test_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
 
 
 ## models
 debug_model = False
-model_architecture_file = models_folder + '/model_architecture.json'
-model_weights_file = models_folder + 'model_weights.h5'
+model_architecture_file = models_folder + '/model_architecture_%s_%s%s.json' % (caffemodel, blob_name, postfix)
+model_weights_file = models_folder + '/model_weights_%s_%s%s.h5' % (caffemodel, blob_name, postfix)
 
 if debug_model:
     space = {

@@ -99,11 +99,17 @@ echos = 30
 # a simple two-layer network
 model = Sequential()
 
+# current best dropout is 0.7
 model.add(Dense(hidden_unit, input_dim=X_train.shape[1], init='glorot_uniform'))
 model.add(BatchNormalization(input_shape=(hidden_unit,)))
 model.add(Activation('relu'))
 model.add(Dropout(0.7))
-
+'''
+model.add(Dense(hidden_unit, init='glorot_uniform'))
+model.add(BatchNormalization(input_shape=(hidden_unit,)))
+model.add(Activation('relu'))
+model.add(Dropout(0.7))
+'''
 model.add(Dense(tags_number))
 model.add(Activation('softmax'))
 
@@ -114,7 +120,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 start = time.time()
 
 # fit
-model.fit(X_train, Y_train, nb_epoch=echos, batch_size=batchs, shuffle=True, verbose=0)
+model.fit(X_train, Y_train, nb_epoch=echos, batch_size=batchs, shuffle=True, verbose=1)
 
 end = time.time()
 print('Training Time: %f' % (end - start))

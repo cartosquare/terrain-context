@@ -346,8 +346,8 @@ landuse,commercial,way,landuse-commercial,商业用地,0,1
 landuse,commercial,node,landuse-commercial,商业用地,0,1
 landuse,conservation,way,landuse-conservation,保护地,0,0
 landuse,construction,way,landuse-construction,在建地,0,0
-landuse,farm,way,landuse-farm,农场,0,1
-landuse,farm,node,landuse-farm,农场,0,1
+landuse,farm,way,landuse-farm,农场,0,0
+landuse,farm,node,landuse-farm,农场,0,0
 landuse,farmland,way,landuse-farmland,农场,0,0
 landuse,farmyard,way,landuse-farmyard,农场后院,0,0
 landuse,farmyard,node,landuse-farmyard,农场后院,0,0
@@ -392,8 +392,8 @@ leisure,beach_resort,way,poi-beach_resort,沙滩边界,0,0
 leisure,common,way,poi-common,常见的土地,0,0
 leisure,dog_park,way,poi-dog_park,遛狗园,0,0
 leisure,fishing,way,poi-fishing,钓鱼处,0,0
-leisure,garden,way,poi-garden,植物园,0,1
-leisure,garden,node,poi-garden,植物园,0,1
+leisure,garden,way,poi-garden,植物园,0,0
+leisure,garden,node,poi-garden,植物园,0,0
 leisure,golf_course,way,poi-golf_course,高尔夫球场,0,0
 leisure,golf_course,node,poi-golf_course,高尔夫球场,0,0
 leisure,horse_riding,way,poi-horse_riding,骑马场,0,0
@@ -405,8 +405,8 @@ leisure,miniature_golf,way,poi-miniature_golf,迷你高尔夫球场,0,0
 leisure,miniature_golf,node,poi-miniature_golf,迷你高尔夫球场,0,0
 leisure,nature_reserve,way,poi-nature_reserve,自然保护区,0,0
 leisure,nature_reserve,node,poi-nature_reserve,自然保护区,0,0
-leisure,park,way,poi-park,公园,0,1
-leisure,park,node,poi-park,公园,0,1
+leisure,park,way,landuse-grass,草地,0,1
+leisure,park,node,landuse-grass,草地,0,1
 leisure,picnic_table,node,poi-picnic_table,野餐台,0,0
 leisure,pitch,way,poi-pitch,绿茵场,0,1
 leisure,playground,way,poi-playground,儿童游乐园,0,0
@@ -482,8 +482,8 @@ man_made,works,node,poi-works,工厂,0,0
 natural,arete,way,poi-arete,近乎刀状的山脊,0,0
 natural,bare_rock,way,poi-bare_rock,岩石裸露地,0,0
 natural,bare_rock,node,poi-bare_rock,岩石裸露地,0,0
-natural,bay,way,poi-bay,海湾,0,1
-natural,bay,node,poi-bay,海湾,0,1
+natural,bay,way,poi-bay,海湾,0,0
+natural,bay,node,poi-bay,海湾,0,0
 natural,beach,way,poi-beach,沙滩,0,1
 natural,beach,node,poi-beach,沙滩,0,1
 natural,cave_entrance,node,poi-cave_entrance,洞穴入口,0,0
@@ -494,8 +494,8 @@ natural,crevasse,way,poi-crevasse,地裂,0,0
 natural,fell,way,poi-fell,高山和极地地区覆盖未开垦草地的居住地,0,0
 natural,glacier,way,poi-glacier,冰川区,0,1
 natural,grass,way,landuse-grass,草地,0,0
-natural,grassland,way,poi-grass,草地,0,1
-natural,grassland,node,poi-grass,草地,0,1
+natural,grassland,way,landuse-grass,草地,0,1
+natural,grassland,node,landuse-grass,草地,0,1
 natural,heath,way,poi-heath,疗养区,0,0
 natural,land,way,poi-land,土地,0,0
 natural,land,node,poi-land,土地,0,0
@@ -707,7 +707,7 @@ waterway,riverbank,way,landuse-river,河流,0,1
 waterway,stream,way,landuse-river,河流,0,1
 waterway,wadi,way,landuse-wadi,干涸河床,0,0
 waterway,waterfall,way,landuse-waterfall,瀑布,0,0
-waterway,weir,way,landuse-weir,河堰,0,1
+waterway,weir,way,landuse-weir,河堰,0,0
 wetland,bog,way,landuse-bog,沼泽湿地,0,0
 wetland,mangrove,way,landuse-mangrove,红树林地,0,0
 wetland,marsh,way,landuse-marsh,澡泽湿地,0,0
