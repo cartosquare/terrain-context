@@ -88,6 +88,7 @@ L18_image_folder = images_folder + '/google_images_test'
 # image list
 image_list_txt = features_folder + '/image_list%s.txt' % (postfix)
 L18_image_list = features_folder + '/image_list_L18%s.txt' % (postfix)
+L18_keys_file = features_folder + '/L18_keys%s' % (postfix)
 
 # caffe binary
 caffe_root = '../caffe/'
