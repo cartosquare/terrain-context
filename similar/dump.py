@@ -58,7 +58,7 @@ for idx in range(0, slice_count):
         features.append(feat)
 
         count += 1
-        if count % 100 == 0:
+        if count % 1000 == 0:
             print 'process slice #%d, range: %d - %d' % (idx, min_count, max_count)
             print 'processed %d' % (count)
 
