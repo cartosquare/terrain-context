@@ -159,8 +159,8 @@ else:
     verbose_output = 0
 
 ## similar
-slice_batch = 500000
+slice_batch = 250000
 slice_dump_pattern = similar_folder + '/slice_dump'
 slice_names_pattern = similar_folder + '/slice_name'
 
-slice_count = 5
+slice_count = 10

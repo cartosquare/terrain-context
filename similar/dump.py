@@ -31,6 +31,10 @@ for idx in range(0, slice_count):
     for key, value in db.RangeIter():
         if count < min_count or count >= max_count:
             count += 1
+            if count % 100 == 0:
+                print 'skip slice #%d, range: %d - %d' % (idx, min_count, max_count)
+                print 'skip %d' % (count)
+
             continue
 
         datum = caffe_pb2.Datum.FromString(db.Get(key))
@@ -52,7 +56,7 @@ for idx in range(0, slice_count):
     print 'write image names lookup %s' % (image_names_txt)
     ff = open(image_names_txt, 'w')
 
-    with open(image_list_txt, 'r') as f:
+    with open(L18_image_list, 'r') as f:
         count = 0
         for line in f:
             if count < min_count or count >= max_count:
@@ -69,7 +73,7 @@ for idx in range(0, slice_count):
             count += 1
     ff.close()
 
-    dump_file = '%s_%d.pkl' % (slice_names_pattern, idx)
+    dump_file = '%s_%d.pkl' % (slice_dump_pattern, idx)
     print 'write dump files %s' % (dump_file)
     with open(dump_file, 'wb') as f:
         cPickle.dump(features, f, -1)
