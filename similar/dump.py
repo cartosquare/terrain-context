@@ -29,13 +29,12 @@ for idx in range(0, slice_count):
     keys = list()
     features = list()
     for key, value in db.RangeIter():
-        if count < min_count or count >= max_count:
+        if count < min_count:
             count += 1
-            if count % 100 == 0:
-                print 'skip slice #%d, range: %d - %d' % (idx, min_count, max_count)
-                print 'skip %d' % (count)
-
             continue
+
+        if count >= max_count:
+            break
 
         datum = caffe_pb2.Datum.FromString(db.Get(key))
         data = caffe.io.datum_to_array(datum)
@@ -59,9 +58,12 @@ for idx in range(0, slice_count):
     with open(L18_image_list, 'r') as f:
         count = 0
         for line in f:
-            if count < min_count or count >= max_count:
+            if count < min_count:
                 count += 1
                 continue
+
+            if count >= max_count:
+                break
 
             file_path, x, y = line.strip().split()
             # base = os.path.basename(file_path)
