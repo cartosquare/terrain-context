@@ -119,7 +119,7 @@ if debug:
 else:
     tags_number = 144
 resnet_batch = 50
-L18_tiles_number = 123456
+L18_tiles_number = 2349583
 extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
 L18_extract_feature_batch = int(math.ceil(float(L18_tiles_number) / float(resnet_batch)))
 x_train_file = features_folder + '/x_train_%s%s.pkl' % (caffemodel, postfix)
