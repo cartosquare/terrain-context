@@ -14,10 +14,10 @@ from caffe.proto import caffe_pb2
 
 import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
-from config import deep_features_folder, slice_batch, slice_count, slice_dump_pattern, L18_image_list，slice_names_pattern
+from config import L18_deep_features_folder, slice_batch, slice_count, slice_dump_pattern, L18_image_list，slice_names_pattern
 
 
-db = leveldb.LevelDB(deep_features_folder)
+db = leveldb.LevelDB(L18_deep_features_folder)
 
 # load features
 for idx in range(0, slice_count):

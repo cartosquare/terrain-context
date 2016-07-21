@@ -160,7 +160,7 @@ else:
 
 ## similar
 slice_batch = 500000
-slice_dump_pattern = similar_folder + './slice_dump'
-slice_names_pattern = similar_folder + './slice_name'
+slice_dump_pattern = similar_folder + '/slice_dump'
+slice_names_pattern = similar_folder + '/slice_name'
 
 slice_count = 5
