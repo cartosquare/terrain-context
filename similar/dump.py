@@ -14,8 +14,20 @@ from caffe.proto import caffe_pb2
 
 import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
-from config import L18_deep_features_folder, slice_batch, slice_count, slice_dump_pattern, L18_image_list, slice_names_pattern
+from config import L18_deep_features_folder, slice_batch, slice_count, slice_dump_pattern, L18_image_list, slice_names_pattern, L18_tiles_number
 
+
+def convert_to_cov_format(in_arr, filepath, count):
+    with open(filepath, 'w') as f:
+        if in_arr.dtype != np.dtype('float64'):
+            in_arr = in_arr.astype('float64')
+            if count != 'all':
+                in_arr = in_arr[:int(count)]
+        n_points = np.array(in_arr.shape[0], dtype='int32')
+        n_points.tofile(f)
+        dims = np.array(in_arr.shape[1], dtype='int32')
+        dims.tofile(f)
+        in_arr.tofile(f)
 
 db = leveldb.LevelDB(L18_deep_features_folder)
 
@@ -23,6 +35,9 @@ db = leveldb.LevelDB(L18_deep_features_folder)
 for idx in range(0, slice_count):
     min_count = idx * slice_batch
     max_count = (idx + 1) * slice_batch
+    if max_count >= L18_tiles_number:
+        max_count = L18_tiles_number
+
     print 'process slice #%d, range: %d - %d' % (idx, min_count, max_count)
 
     count = 0
@@ -66,8 +81,6 @@ for idx in range(0, slice_count):
                 break
 
             file_path, x, y = line.strip().split()
-            # base = os.path.basename(file_path)
-            # filename = os.path.splitext(base)[0]
             filename = x + '_' + y
             ff.write(filename)
             ff.write('\n')
@@ -75,7 +88,6 @@ for idx in range(0, slice_count):
             count += 1
     ff.close()
 
-    dump_file = '%s_%d.pkl' % (slice_dump_pattern, idx)
+    dump_file = '%s_%d.dat' % (slice_dump_pattern, idx)
     print 'write dump files %s' % (dump_file)
-    with open(dump_file, 'wb') as f:
-        cPickle.dump(features, f, -1)
+    convert_to_cov_format(features, dump_file, 'all')
