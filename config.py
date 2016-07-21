@@ -22,6 +22,9 @@ features_folder = './features'
 # models folder
 models_folder = './models'
 
+# similar folder
+similar_folder = './similar'
+
 ## osm tags
 
 # osm pbf format data
@@ -154,3 +157,8 @@ else:
     }
     max_evaluate = 100
     verbose_output = 0
+
+## similar
+slice_batch = 500000
+slice_file_pattern = similar_folder + './slice'
+slice_count = 5
