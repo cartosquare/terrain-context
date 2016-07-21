@@ -63,10 +63,10 @@ for idx in range(0, slice_count):
                 count += 1
                 continue
 
-            file_path, label = line.strip().split()
-            base = os.path.basename(file_path)
-            filename = os.path.splitext(base)[0]
-
+            file_path, x, y = line.strip().split()
+            # base = os.path.basename(file_path)
+            # filename = os.path.splitext(base)[0]
+            filename = x + '_' + y
             ff.write(filename)
             ff.write('\n')
 
