@@ -11,14 +11,11 @@ for direc in subdirectories:
     print direc
     label_directory = os.path.join(L18_image_folder, direc)
     if os.path.isdir(label_directory):
-        listing = glob.glob(label_directory + '/*.png')
+        listing = glob.glob(label_directory + '/*.jpg')
 
         for file in listing:
             if os.path.getsize(file) > 1024:
-                base = os.path.basename(file)
-                filename = os.path.splitext(base)[0]
-                print filename
-                f.write('%s %s %s\n' % (file, direc, filename))
+                f.write('%s %d\n' % (file, 0))
             else:
                 print 'skip invalid image %s' % (file)
     else:

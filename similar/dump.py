@@ -17,6 +17,13 @@ sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
 from config import L18_deep_features_folder, slice_batch, slice_count, slice_dump_pattern, L18_image_list, slice_names_pattern, L18_tiles_number
 
 
+def get_file_with_parents(filepath, levels=1):
+    common = filepath
+    for i in range(levels + 1):
+        common = os.path.dirname(common)
+    return os.path.relpath(filepath, common)
+
+
 def convert_to_cov_format(in_arr, filepath, count):
     with open(filepath, 'w') as f:
         if in_arr.dtype != np.dtype('float64'):
@@ -60,9 +67,13 @@ for idx in range(0, slice_count):
         count += 1
         if count % 1000 == 0:
             print 'process slice #%d, range: %d - %d' % (idx, min_count, max_count)
-            print 'processed %d' % (count)
+            print 'processed %d' % (len(features))
 
     features = np.array(features)
+    if (len(features) == 0):
+        print 'empty features'
+        break
+
     print len(features)
     print len(features[0])
 
@@ -80,8 +91,16 @@ for idx in range(0, slice_count):
             if count >= max_count:
                 break
 
-            file_path, x, y = line.strip().split()
+            file_path, label = line.strip().split()
+
+            rel_path = get_file_with_parents(file_path, 1)
+            y = str(rel_path).split('/')[0]
+
+            base = os.path.basename(file_path)
+            x = os.path.splitext(base)[0]
+
             filename = x + '_' + y
+
             ff.write(filename)
             ff.write('\n')
 
