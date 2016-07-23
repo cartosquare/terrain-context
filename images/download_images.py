@@ -1,3 +1,18 @@
+"""
+__file__
+
+    config.py
+
+__description__
+
+    Download images from google.
+
+__author__
+
+    atlasxu < xux@geohey.com >
+
+"""
+
 import os
 import random
 from urllib2 import urlopen, URLError, HTTPError

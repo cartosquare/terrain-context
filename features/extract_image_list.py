@@ -1,3 +1,18 @@
+"""
+__file__
+
+    config.py
+
+__description__
+
+    Get image list.
+
+__author__
+
+    atlasxu < xux@geohey.com >
+
+"""
+
 import os
 import glob
 import random

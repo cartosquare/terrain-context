@@ -16,13 +16,35 @@ __author__
 import math
 from hyperopt import hp
 
-## general folders
+# Parameters that you must pay attention to:
 
 ## debug switch
 ## Warning: changing debug to True will not let caffe extract_feature
 ## to process image_list_test.txt, if you want do so, change corresponding
 ## model prototex file
 debug = False
+
+# tags file name
+tag_file_name = 'tags_32'
+
+# #tiles in level 18
+L18_tiles_number = 2349583
+
+# number of training tiles
+training_tiles_number = 12345
+
+if debug:
+    tags_number = 2
+else:
+    tags_number = 32
+
+# osm pbf format data
+pbf_file = '/Users/xuxiang/mapping/g-map/set_up_osm_data/china-latest.osm.pbf'
+
+# google static map api key
+KEY = 'AIzaSyDjldHb_52Ui1etlmLORjFS_5xZv3yMjNg'
+
+## general folders
 
 # osm tags folder
 osm_tags_folder = './osm_tags'
@@ -41,9 +63,6 @@ similar_folder = './similar'
 
 ## osm tags
 
-# osm pbf format data
-pbf_file = '/Users/xuxiang/mapping/g-map/set_up_osm_data/china-latest.osm.pbf'
-
 # node tags csv
 osm_node_tags_csv = osm_tags_folder + '/node_tags.csv'
 
@@ -56,14 +75,14 @@ else:
     postfix = ''
 
 # csv that combines node and way tags
-all_tags_csv = osm_tags_folder + '/tags_32%s.csv' % (postfix)
+all_tags_csv = osm_tags_folder + '/%s%s.csv' % (tag_file_name, postfix)
 
 # subset of all tags(This is the tags that we want to learn)
-tags_csv = osm_tags_folder + '/tags%s.csv' % (postfix)
+tags_csv = osm_tags_folder + '/%s_subset%s.csv' % (tag_file_name, postfix)
 
 # in tags_csv file, a tag may occurs two times(both as node and way tags)
 # in this file, we list all the unique tags
-unique_tags_csv = osm_tags_folder + '/unique_tags%s.csv' % (postfix)
+unique_tags_csv = osm_tags_folder + '/%s_map%s.csv' % (tag_file_name, postfix)
 
 # extracted data by tags
 tags_node_data_folder = osm_tags_folder + '/tags_node_data%s' % (postfix)
@@ -71,7 +90,7 @@ tags_way_data_folder = osm_tags_folder + '/tags_way_data%s' % (postfix)
 
 # download list contains all the coordinates of corresponding tags
 # in later works, we will download an image for each pair of coordinate
-download_list_csv = osm_tags_folder + '/download_list%s.csv' % (postfix)
+download_list_csv = osm_tags_folder + '/%s_download_list%s.csv' % (tag_file_name, postfix)
 
 # downloading parameters
 if debug:
@@ -92,17 +111,16 @@ image_size = 256
 default_zoom = 18
 bottom_crop = 23
 min_samples_per_category = samples_per_category / 2
-KEY = 'AIzaSyDjldHb_52Ui1etlmLORjFS_5xZv3yMjNg'
 
 # image folder
-google_image_folder = images_folder + '/google_images%s' % (postfix)
+google_image_folder = images_folder + '/%s_tiles%s' % (tag_file_name, postfix)
 # L18_image_folder = images_folder + '/L18_google_images%s' % (postfix)
 L18_image_folder = images_folder + '/google_images_test'
 
 ## features
 
 # image list
-image_list_txt = features_folder + '/image_list%s.txt' % (postfix)
+image_list_txt = features_folder + '/%s_image_list%s.txt' % (tag_file_name, postfix)
 L18_image_list = features_folder + '/image_list_L18%s.txt' % (postfix)
 L18_keys_file = features_folder + '/L18_keys%s' % (postfix)
 
@@ -128,27 +146,24 @@ else:
 use_gpu = False
 
 # deep feature folder
-deep_features_folder = features_folder + '/deep_features_%s%s' % (caffemodel, postfix)
+deep_features_folder = features_folder + '/%s_deep_features_%s_%s%s' % (tag_file_name, caffemodel, blob_name, postfix)
 L18_deep_features_folder = features_folder + '/L18_deep_features_%s%s' % (caffemodel, postfix)
 
-# tags number
-if debug:
-    tags_number = 2
-else:
-    tags_number = 32
-resnet_batch = 50
-# extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
-extract_feature_batch = 1400
-x_train_file = features_folder + '/x_train_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
-x_test_file = features_folder + '/x_test_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
-y_train_file = features_folder + '/y_train_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
-y_test_file = features_folder + '/y_test_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
+# batchs when calculating deep feature
+feature_batch = 50
+extract_feature_batch = int(math.ceil(float(training_tiles_number) / float(feature_batch)))
+
+# training-validating sample files
+x_train_file = features_folder + '/%s_x_train_%s_%s%s.pkl' % (tag_file_name, caffemodel, blob_name, postfix)
+x_test_file = features_folder + '/%s_x_test_%s_%s%s.pkl' % (tag_file_name, caffemodel, blob_name, postfix)
+y_train_file = features_folder + '/%s_y_train_%s_%s%s.pkl' % (tag_file_name, caffemodel, blob_name, postfix)
+y_test_file = features_folder + '/%s_y_test_%s_%s%s.pkl' % (tag_file_name, caffemodel, blob_name, postfix)
 
 
 ## models
 debug_model = False
-model_architecture_file = models_folder + '/model_architecture_%s_%s%s.json' % (caffemodel, blob_name, postfix)
-model_weights_file = models_folder + '/model_weights_%s_%s%s.h5' % (caffemodel, blob_name, postfix)
+model_architecture_file = models_folder + '/%s_model_architecture_%s_%s%s.json' % (tag_file_name, caffemodel, blob_name, postfix)
+model_weights_file = models_folder + '/%s_model_weights_%s_%s%s.h5' % (tag_file_name, caffemodel, blob_name, postfix)
 
 if debug_model:
     space = {
@@ -179,4 +194,4 @@ slice_batch = 250000
 slice_dump_pattern = similar_folder + '/slice_dump'
 slice_names_pattern = similar_folder + '/slice_name'
 
-slice_count = 10
+slice_count = int(math.ceil(float(L18_tiles_number) / float(slice_batch)))
