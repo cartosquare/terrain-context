@@ -19,6 +19,9 @@ images_folder = './images'
 # features folder
 features_folder = './features'
 
+# models folder
+models_folder = './models'
+
 # similar folder
 similar_folder = './similar'
 
@@ -61,7 +64,7 @@ download_list_csv = osm_tags_folder + '/download_list%s.csv' % (postfix)
 if debug:
     samples_per_category = 10
 else:
-    samples_per_category = 500
+    samples_per_category = 5000
 
 # space for discrect way features
 # Calculated for latitude 25.769322
@@ -119,19 +122,20 @@ L18_deep_features_folder = features_folder + '/L18_deep_features_%s%s' % (caffem
 if debug:
     tags_number = 2
 else:
-    tags_number = 144
+    tags_number = 32
 resnet_batch = 50
-L18_tiles_number = 2349583
-extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
-L18_extract_feature_batch = int(math.ceil(float(L18_tiles_number) / float(resnet_batch)))
-x_train_file = features_folder + '/x_train_%s%s.pkl' % (caffemodel, postfix)
-x_test_file = features_folder + '/x_test_%s%s.pkl' % (caffemodel, postfix)
-y_train_file = features_folder + '/y_train_%s%s.pkl' % (caffemodel, postfix)
-y_test_file = features_folder + '/y_test_%s%s.pkl' % (caffemodel, postfix)
+# extract_feature_batch = int(math.ceil(float(samples_per_category * tags_number) / float(resnet_batch)))
+extract_feature_batch = 1400
+x_train_file = features_folder + '/x_train_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
+x_test_file = features_folder + '/x_test_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
+y_train_file = features_folder + '/y_train_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
+y_test_file = features_folder + '/y_test_%s_%s%s.pkl' % (caffemodel, blob_name, postfix)
 
 
 ## models
 debug_model = False
+model_architecture_file = models_folder + '/model_architecture_%s_%s%s.json' % (caffemodel, blob_name, postfix)
+model_weights_file = models_folder + '/model_weights_%s_%s%s.h5' % (caffemodel, blob_name, postfix)
 
 if debug_model:
     space = {
@@ -149,15 +153,12 @@ if debug_model:
     verbose_output = 1
 else:
     space = {
-        'batch_norm': hp.choice('batch_norm', [True, False]),
-        'hidden_units': hp.choice('hidden_units', [64, 128, 256, 512]),
-        'input_dropout': hp.quniform('dropout', 0, 0.9, 0.1),
-        'hidden_activation': hp.choice('hidden_activation', ['relu', 'prelu', 'sigmoid']),
-        'output_activation': hp.choice('output_activation', ['relu', 'sigmoid']),
+        'input_dropout': hp.quniform('input_dropout', 0, 0.9, 0.01),
+        'hidden_dropout': hp.quniform('hidden_dropout', 0, 0.9, 0.01),
         'batch_size': hp.choice('batch_size', [16, 32, 64, 128]),
         'nb_epoch': hp.choice('nb_epoch', [10, 20, 30, 40, 50])
     }
-    max_evaluate = 250
+    max_evaluate = 100
     verbose_output = 0
 
 ## similar

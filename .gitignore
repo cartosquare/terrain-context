@@ -2,9 +2,14 @@ google_images*/
 deep_features*/
 tags_node_data*/
 tags_way_data*/
+dist/
 caffenet/
 *_test/
 *_test*
+*.json
+*.h5
+slice*.dat
+slice*.txt
 .ipynb_checkpoints/
 image_list.txt
 *.pkl
