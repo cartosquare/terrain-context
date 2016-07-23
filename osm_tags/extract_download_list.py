@@ -1,3 +1,18 @@
+"""
+__file__
+
+    config.py
+
+__description__
+
+    Extract coordinate pairs of each tag.
+
+__author__
+
+    atlasxu < xux@geohey.com >
+
+"""
+
 import os
 from random import randint
 from osgeo import ogr

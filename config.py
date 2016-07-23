@@ -1,4 +1,18 @@
-### This file contains all the configurable parameters.
+"""
+__file__
+
+    config.py
+
+__description__
+
+    This file provides global parameter configurations for the project.
+
+__author__
+
+    atlasxu < xux@geohey.com >
+
+"""
+
 import math
 from hyperopt import hp
 
@@ -42,11 +56,10 @@ else:
     postfix = ''
 
 # csv that combines node and way tags
-all_tags_csv = osm_tags_folder + '/all_tags%s.csv' % (postfix)
+all_tags_csv = osm_tags_folder + '/tags_32%s.csv' % (postfix)
 
 # subset of all tags(This is the tags that we want to learn)
 tags_csv = osm_tags_folder + '/tags%s.csv' % (postfix)
-
 
 # in tags_csv file, a tag may occurs two times(both as node and way tags)
 # in this file, we list all the unique tags

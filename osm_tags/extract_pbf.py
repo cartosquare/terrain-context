@@ -1,3 +1,18 @@
+"""
+__file__
+
+    extract_pbf.py
+
+__description__
+
+    Extract data of each tag from osm pbf format data.
+
+__author__
+
+    atlasxu < xux@geohey.com >
+
+"""
+
 import os
 import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
