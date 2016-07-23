@@ -85,8 +85,8 @@ Y_test = np_utils.to_categorical(y_test, tags_number)
 
 # load model
 model = Sequential()
-model = model.from_json(open('my_model_architecture.json').read())
-model.load_weights('my_model_weights.h5')
+model = model.from_json(open(model_architecture_file).read())
+model.load_weights(model_weights_file)
 
 # Finally, before it can be used, the model shall be compiled.
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
