@@ -18,11 +18,10 @@ for line in lines:
     else:
         (tag, value, osm_type, label, label_cn, only_bj, use) = line.strip().split(',')
         if int(use):
-            new_label = tag + '-' + value
-            f2.write('%s,%s,%s,%s,%s,%s,%s\n' % (tag, value, osm_type, new_label, label_cn, only_bj, use))
-            unique_labels.add(new_label)
-            if new_label not in labels_map:
-                labels_map[new_label] = label_cn
+            f2.write('%s,%s,%s,%s,%s,%s,%s\n' % (tag, value, osm_type, label, label_cn, only_bj, use))
+            unique_labels.add(label)
+            if label not in labels_map:
+                labels_map[label] = label_cn
 
 f1.close()
 f2.close()

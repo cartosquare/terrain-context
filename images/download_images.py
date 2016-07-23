@@ -29,25 +29,28 @@ def dlfile(url, filename):
 
 with open(download_list_csv) as f:
     count = 0
+    finished = list()
     for line in f:
-        (lon, lat, tag_value) = line.strip().split(',')
-        (tag, val) = tag_value.split('-')
+        (lon, lat, label) = line.strip().split(',')
+        if label in finished:
+            continue
 
-        key_value = '%s.%s' % (tag, val)
-
-        image_dir = '%s/%s' % (google_image_folder, tag_value)
+        image_dir = '%s/%s' % (google_image_folder, label)
         if not os.path.exists(image_dir):
             os.makedirs(image_dir)
 
         old_files_num = len([name for name in os.listdir(image_dir) if os.path.isfile(os.path.join(image_dir, name))])
         print 'already downloaded: ', old_files_num
+        if old_files_num >= samples_per_category:
+            finished.append(label)
+            continue
 
         # download google image
         url_str = 'https://maps.googleapis.com/maps/api/staticmap?maptype=satellite&center=%f,%f&zoom=%d&size=%dx%d&key=%s' % (float(lat), float(lon), default_zoom, image_size, image_size + bottom_crop, KEY)
-        image_file = '%s/%s_%f_%f.png' % (image_dir, key_value, float(lon), float(lat))
+        image_file = '%s/%s_%f_%f.png' % (image_dir, label, float(lon), float(lat))
 
         if not os.path.exists(image_file):
-            print key_value
+            print label
             dlfile(url_str, image_file)
 
             # delete invalid image

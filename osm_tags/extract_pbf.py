@@ -40,7 +40,7 @@ with open(tags_csv) as f:
             print osm_tag_file
 
         # generate if not exist
-        if not os.path.exists(json_tag_file):
+        if not os.path.exists(json_tag_file) or os.path.getsize(json_tag_file) <= 100:
             extract_com = 'osmosis --read-pbf %s %s %s --write-xml %s' % (pbf_file, type_filter, spatial_filter, osm_tag_file)
 
             print extract_com
