@@ -25,18 +25,18 @@ from hyperopt import hp
 debug = False
 
 # tags file name
-tag_file_name = 'tags_32'
+tag_file_name = 'tags_70'
 
 # #tiles in level 18
 L18_tiles_number = 2349583
 
 # number of training tiles
-training_tiles_number = 12345
+training_tiles_number = 71244
 
 if debug:
     tags_number = 2
 else:
-    tags_number = 32
+    tags_number = 70
 
 # osm pbf format data
 pbf_file = '/Users/xuxiang/mapping/g-map/set_up_osm_data/china-latest.osm.pbf'

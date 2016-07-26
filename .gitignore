@@ -6,6 +6,7 @@ dist/
 caffenet/
 *_test/
 *_test*
+*tiles/
 *.json
 *.h5
 slice*.dat
