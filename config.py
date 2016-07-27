@@ -141,7 +141,7 @@ else:
     caffe_model_file = './caffenet/bvlc_reference_caffenet.caffemodel'
     caffe_proto_text = './caffenet/imagenet_val.prototxt'
     caffe_proto_L18_text = './caffenet/imagenet_val_L18.prototxt'
-    blob_name = 'fc7'
+    blob_name = 'fc8'
 
 use_gpu = False
 
