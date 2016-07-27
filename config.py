@@ -193,5 +193,5 @@ else:
 slice_batch = 250000
 slice_dump_pattern = similar_folder + '/slice_dump'
 slice_names_pattern = similar_folder + '/slice_name'
-
+slice_sample = 3
 slice_count = int(math.ceil(float(L18_tiles_number) / float(slice_batch)))

@@ -14,7 +14,7 @@ from caffe.proto import caffe_pb2
 
 import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
-from config import L18_deep_features_folder, slice_dump_pattern, L18_image_list, slice_names_pattern, L18_tiles_number
+from config import L18_deep_features_folder, slice_dump_pattern, L18_image_list, slice_names_pattern, L18_tiles_number, slice_sample
 
 
 def get_file_with_parents(filepath, levels=1):
@@ -42,7 +42,7 @@ db = leveldb.LevelDB(L18_deep_features_folder)
 count = 0
 features = list()
 for key, value in db.RangeIter():
-    if count % 2 == 0:
+    if count % slice_sample == 0:
         datum = caffe_pb2.Datum.FromString(db.Get(key))
         data = caffe.io.datum_to_array(datum)
         feat = np.transpose(data[:, 0])[0]
@@ -66,7 +66,7 @@ ff = open(image_names_txt, 'w')
 with open(L18_image_list, 'r') as f:
     count = 0
     for line in f:
-        if count % 2 == 0:
+        if count % slice_sample == 0:
             file_path, label = line.strip().split()
 
             rel_path = get_file_with_parents(file_path, 1)
