@@ -25,18 +25,18 @@ from hyperopt import hp
 debug = False
 
 # tags file name
-tag_file_name = 'tags_70'
+tag_file_name = 'tags_67'
 
 # #tiles in level 18
 L18_tiles_number = 2349583
 
 # number of training tiles
-training_tiles_number = 71244
+training_tiles_number = 57596
 
 if debug:
     tags_number = 2
 else:
-    tags_number = 70
+    tags_number = 67
 
 # osm pbf format data
 pbf_file = '/Users/xuxiang/mapping/g-map/set_up_osm_data/china-latest.osm.pbf'
@@ -123,6 +123,8 @@ L18_image_folder = images_folder + '/google_images_test'
 image_list_txt = features_folder + '/%s_image_list%s.txt' % (tag_file_name, postfix)
 L18_image_list = features_folder + '/image_list_L18%s.txt' % (postfix)
 L18_keys_file = features_folder + '/L18_keys%s' % (postfix)
+train_image_list_txt = features_folder + '/train.txt'
+test_image_list_txt = features_folder + '/test.txt'
 
 # caffe binary
 caffe_root = '../caffe/'
@@ -141,7 +143,7 @@ else:
     caffe_model_file = './caffenet/bvlc_reference_caffenet.caffemodel'
     caffe_proto_text = './caffenet/imagenet_val.prototxt'
     caffe_proto_L18_text = './caffenet/imagenet_val_L18.prototxt'
-    blob_name = 'fc8'
+    blob_name = 'fc7'
 
 use_gpu = False
 
@@ -181,12 +183,16 @@ if debug_model:
     verbose_output = 1
 else:
     space = {
-        'input_dropout': hp.quniform('input_dropout', 0, 0.9, 0.01),
-        'hidden_dropout': hp.quniform('hidden_dropout', 0, 0.9, 0.01),
-        'batch_size': hp.choice('batch_size', [16, 32, 64, 128]),
-        'nb_epoch': hp.choice('nb_epoch', [10, 20, 30, 40, 50])
+        # 'hidden_units': hp.choice('hidden_units', [16, 32, 64, 128, 256, 512]),
+        # 'dropout': hp.quniform('dropout', 0, 0.9, 0.1),
+        # 'batch_size': hp.choice('batch_size', [16, 32, 64, 128]),
+        # 'nb_epoch': hp.choice('nb_epoch', [10, 20, 30, 40])
+        'hidden_units': hp.choice('hidden_units', [512, 1024, 2048, 4096]),
+        'dropout': hp.quniform('dropout', 0, 0.9, 0.1),
+        'batch_size': hp.choice('batch_size', [2, 4, 8, 16]),
+        'nb_epoch': hp.choice('nb_epoch', [10, 20, 30])
     }
-    max_evaluate = 100
+    max_evaluate = 40
     verbose_output = 0
 
 ## similar

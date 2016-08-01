@@ -36,20 +36,13 @@ def score(param):
     ## hidden layers
     model = Sequential()
     model.add(Dense(hidden_units, input_dim=X_train.shape[1], init='glorot_uniform'))
-
-    if param['batch_norm']:
-        model.add(BatchNormalization(input_shape=(hidden_units,)))
-
-    if param['hidden_activation'] == 'prelu':
-        model.add(PReLU(input_shape=(hidden_units,)))
-    else:
-        model.add(Activation(param['hidden_activation']))
-
+    model.add(BatchNormalization(input_shape=(hidden_units,)))
+    model.add(Activation('relu'))
     model.add(Dropout(param['dropout']))
 
     ## output layer
     model.add(Dense(tags_number, init='glorot_uniform'))
-    model.add(Activation(param['output_activation']))
+    model.add(Activation('softmax'))
 
     ## loss
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -57,7 +50,7 @@ def score(param):
     ## train
     # model.fit(X_train, Y_train, nb_epoch=int(param['nb_epoch']), batch_size=int(param['batch_size']), validation_data=(X_test, Y_test), shuffle=True)
     model.fit(X_train, Y_train, nb_epoch=int(param['nb_epoch']), batch_size=int(param['batch_size']), validation_split=0, verbose=verbose_output, shuffle=True)
-
+    '''
     ## prediction
     pred = model.predict(X_test, verbose=verbose_output)
 
@@ -74,6 +67,10 @@ def score(param):
     print 'top-5 error: %f' % (top_5_error)
 
     return top_5_error
+    '''
+    score, acc = model.evaluate(X_test, Y_test, batch_size=int(param['batch_size']))
+    print score, acc
+    return (1 - acc)
 
 ## Program starts from here ...
 

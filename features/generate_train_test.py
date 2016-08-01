@@ -55,7 +55,7 @@ for label in range(0, tags_number):
     # check this !!!
     sub_features = list(compress(features, mask.values.tolist()))
     sub_labels = image_list['label'][mask].values.tolist()
-    X_train_sub, X_test_sub, y_train_sub, y_test_sub = train_test_split(sub_features, sub_labels, test_size=0.25, random_state=42)
+    X_train_sub, X_test_sub, y_train_sub, y_test_sub = train_test_split(sub_features, sub_labels, test_size=0.4, random_state=42)
 
     print '#x_train: %d, #x_test: %d, #y_train: %d, y_test: %d' % (len(X_train_sub), len(X_test_sub), len(y_train_sub), len(y_test_sub))
 
