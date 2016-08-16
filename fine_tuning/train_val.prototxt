@@ -14,7 +14,7 @@ layer {
   }
   image_data_param {
     source: "features/train.txt"
-    batch_size: 64
+    batch_size: 128
     new_height: 256
     new_width: 256
   }
@@ -34,7 +34,7 @@ layer {
   }
   image_data_param {
     source: "features/test.txt"
-    batch_size: 64
+    batch_size: 128
     new_height: 256
     new_width: 256
   }
@@ -370,13 +370,29 @@ layer {
   }
 }
 layer {
-  name: "accuracy"
+  name: "accuracy1"
   type: "Accuracy"
   bottom: "fc8_terrain"
   bottom: "label"
-  top: "accuracy"
+  top: "accuracy1"
   include {
     phase: TEST
+  }
+  accuracy_param {
+    top_k: 1
+  }
+}
+layer {
+  name: "accuracy5"
+  type: "Accuracy"
+  bottom: "fc8_terrain"
+  bottom: "label"
+  top: "accuracy5"
+  include {
+    phase: TEST
+  }
+  accuracy_param {
+    top_k: 5
   }
 }
 layer {
