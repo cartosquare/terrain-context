@@ -4,6 +4,7 @@ tags_node_data*/
 tags_way_data*/
 dist/
 caffenet/
+*deep_features_bvlc*/
 *_test/
 *_test*
 *tiles/
@@ -17,3 +18,6 @@ image_list.txt
 *.caffemodel
 *.binaryproto
 *.pyc
+*.png
+*.ipynb
+*.txt

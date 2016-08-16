@@ -114,14 +114,14 @@ min_samples_per_category = samples_per_category / 2
 
 # image folder
 google_image_folder = images_folder + '/%s_tiles%s' % (tag_file_name, postfix)
-# L18_image_folder = images_folder + '/L18_google_images%s' % (postfix)
-L18_image_folder = images_folder + '/google_images_test'
+L18_image_folder = images_folder + '/L18_google_images%s' % (postfix)
 
 ## features
 
 # image list
 image_list_txt = features_folder + '/%s_image_list%s.txt' % (tag_file_name, postfix)
-L18_image_list = features_folder + '/image_list_L18%s.txt' % (postfix)
+# L18_image_list = features_folder + '/image_list_L18%s.txt' % (postfix)
+L18_image_list = '/Volumes/first/bj_demo/image_list_L18.txt'
 L18_keys_file = features_folder + '/L18_keys%s' % (postfix)
 train_image_list_txt = features_folder + '/train.txt'
 test_image_list_txt = features_folder + '/test.txt'
@@ -149,7 +149,8 @@ use_gpu = False
 
 # deep feature folder
 deep_features_folder = features_folder + '/%s_deep_features_%s_%s%s' % (tag_file_name, caffemodel, blob_name, postfix)
-L18_deep_features_folder = features_folder + '/L18_deep_features_%s%s' % (caffemodel, postfix)
+# L18_deep_features_folder = features_folder + '/L18_deep_features_%s%s' % (caffemodel, postfix)
+L18_deep_features_folder = '/Volumes/first/bj_demo/L18_deep_features_bvlc'
 
 # batchs when calculating deep feature
 feature_batch = 50

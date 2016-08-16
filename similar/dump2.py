@@ -21,10 +21,7 @@ from caffe.proto import caffe_pb2
 
 import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__) + '/' + '..'))
-from config import L18_deep_features_folder, slice_batch, slice_count, slice_dump_pattern, L18_image_list, slice_names_pattern, L18_tiles_number
-
-model_architecture_file = '/Volumes/first/bj_demo/model_architecture_bvlc_fc7.json'
-model_weights_file = '/Volumes/first/bj_demo/model_weights_bvlc_fc7.h5'
+from config import L18_deep_features_folder, slice_batch, slice_count, slice_dump_pattern, L18_image_list, slice_names_pattern, L18_tiles_number, model_architecture_file, model_weights_file
 
 
 def get_file_with_parents(filepath, levels=1):
@@ -55,6 +52,7 @@ model.load_weights(model_weights_file)
 # Finally, before it can be used, the model shall be compiled.
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
+print L18_deep_features_folder
 db = leveldb.LevelDB(L18_deep_features_folder)
 count = 0
 keys = list()
