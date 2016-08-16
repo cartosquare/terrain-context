@@ -14,7 +14,7 @@ layer {
   }
   image_data_param {
     source: "features/train.txt"
-    batch_size: 50
+    batch_size: 64
     new_height: 256
     new_width: 256
   }
@@ -34,7 +34,7 @@ layer {
   }
   image_data_param {
     source: "features/test.txt"
-    batch_size: 50
+    batch_size: 64
     new_height: 256
     new_width: 256
   }
