@@ -1,7 +1,7 @@
-name: "GoogleNet"
+name: "GoogleNet-Terrain"
 layer {
   name: "data"
-  type: "Data"
+  type: "ImageData"
   top: "data"
   top: "label"
   include {
@@ -14,31 +14,33 @@ layer {
     mean_value: 117
     mean_value: 123
   }
-  data_param {
-    source: "examples/imagenet/ilsvrc12_train_lmdb"
+  image_data_param {
+    source: "features/train.txt"
     batch_size: 32
-    backend: LMDB
+    new_height: 256
+    new_width: 256
   }
 }
 layer {
   name: "data"
-  type: "Data"
+  type: "ImageData"
   top: "data"
   top: "label"
   include {
     phase: TEST
   }
   transform_param {
-    mirror: false
+    mirror: true
     crop_size: 224
     mean_value: 104
     mean_value: 117
     mean_value: 123
   }
-  data_param {
-    source: "examples/imagenet/ilsvrc12_val_lmdb"
+  image_data_param {
+    source: "features/test.txt"
     batch_size: 50
-    backend: LMDB
+    new_height: 256
+    new_width: 256
   }
 }
 layer {
@@ -2377,20 +2379,20 @@ layer {
   }
 }
 layer {
-  name: "loss3/classifier"
+  name: "fc_terrain"
   type: "InnerProduct"
   bottom: "pool5/7x7_s1"
-  top: "loss3/classifier"
+  top: "fc_terrain"
   param {
-    lr_mult: 1
+    lr_mult: 10
     decay_mult: 1
   }
   param {
-    lr_mult: 2
+    lr_mult: 20
     decay_mult: 0
   }
   inner_product_param {
-    num_output: 1000
+    num_output: 67
     weight_filler {
       type: "xavier"
     }
@@ -2403,7 +2405,7 @@ layer {
 layer {
   name: "loss3/loss3"
   type: "SoftmaxWithLoss"
-  bottom: "loss3/classifier"
+  bottom: "fc_terrain"
   bottom: "label"
   top: "loss3/loss3"
   loss_weight: 1
@@ -2411,7 +2413,7 @@ layer {
 layer {
   name: "loss3/top-1"
   type: "Accuracy"
-  bottom: "loss3/classifier"
+  bottom: "fc_terrain"
   bottom: "label"
   top: "loss3/top-1"
   include {
@@ -2421,7 +2423,7 @@ layer {
 layer {
   name: "loss3/top-5"
   type: "Accuracy"
-  bottom: "loss3/classifier"
+  bottom: "fc_terrain"
   bottom: "label"
   top: "loss3/top-5"
   include {
